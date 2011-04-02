@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PEIK")]
-[assembly: AssemblyDescription("Properly Engineered Infection Kit")]
+[assembly: AssemblyTitle("")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Contra & FMC")]
-[assembly: AssemblyProduct("PEIK")]
-[assembly: AssemblyCopyright("Copyright © Contra & FMC 2011")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f73eddaa-fc3c-4a85-9b68-9626181cfce8")]
+[assembly: Guid("2aabe66a-cb51-428e-b496-218fd0d361e6")]
 
 // Version information for an assembly consists of the following four values:
 //

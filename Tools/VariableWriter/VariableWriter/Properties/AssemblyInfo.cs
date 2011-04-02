@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PEIK")]
-[assembly: AssemblyDescription("Properly Engineered Infection Kit")]
+[assembly: AssemblyTitle("VariableWriter")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Contra & FMC")]
-[assembly: AssemblyProduct("PEIK")]
-[assembly: AssemblyCopyright("Copyright © Contra & FMC 2011")]
+[assembly: AssemblyCompany("FUSD")]
+[assembly: AssemblyProduct("VariableWriter")]
+[assembly: AssemblyCopyright("Copyright © FUSD 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f73eddaa-fc3c-4a85-9b68-9626181cfce8")]
+[assembly: Guid("78d19025-b187-443e-bfaf-a5e9e390a184")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.0.1")]
+[assembly: AssemblyFileVersion("1.0.0.1")]
