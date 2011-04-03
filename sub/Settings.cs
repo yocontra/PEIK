@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
@@ -8,23 +7,19 @@ namespace sub
     public class Settings
     {
         #region Settings
+
         #region Keylogger
-        private string emailAddress;
-        public string EmailAddress
-        {
-            get { return emailAddress; }
-            set { emailAddress = value; }
-        }
-        private string emailPassword;
-        public string EmailPassword
-        {
-            get { return emailPassword; }
-            set { emailPassword = value; }
-        }
+
+        public string EmailAddress { get; set; }
+
+        public string EmailPassword { get; set; }
+
         #endregion
+
         #endregion
 
         #region Serialization
+
         /// <summary>
         /// Serializes the settings object
         /// </summary>
@@ -32,15 +27,19 @@ namespace sub
         /// <param name="stream">Stream to write the xml data to</param>
         public static void Serialize(Settings setting, Stream stream)
         {
-            System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(Settings));
+            System.Xml.Serialization.XmlSerializer xmlSerializer =
+                new System.Xml.Serialization.XmlSerializer(typeof (Settings));
             xmlSerializer.Serialize(stream, setting);
         }
+
         public static Settings DeSerializeFromSelf(string xmlData)
         {
-            System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(Settings));
+            System.Xml.Serialization.XmlSerializer xmlSerializer =
+                new System.Xml.Serialization.XmlSerializer(typeof (Settings));
             MemoryStream memoryStream = new MemoryStream(StringToUTF8ByteArray(xmlData));
-            return (Settings)xmlSerializer.Deserialize(memoryStream);
+            return (Settings) xmlSerializer.Deserialize(memoryStream);
         }
+
         /// <summary>
         /// Converts the String to UTF8 Byte array and is used in De serialization
         /// </summary>
@@ -52,6 +51,7 @@ namespace sub
             Byte[] byteArray = encoding.GetBytes(pXmlString);
             return byteArray;
         }
+
         #endregion
     }
 }

