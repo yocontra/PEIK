@@ -14,6 +14,10 @@ namespace sub
 
         public string EmailPassword { get; set; }
 
+        public string SmtpAddress { get; set; }
+
+        public int SmtpPort { get; set; }
+
         #endregion
 
         #endregion
