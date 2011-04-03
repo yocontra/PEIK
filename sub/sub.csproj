@@ -43,18 +43,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IStealer.cs" />
-    <Compile Include="OldKeylogger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Stealers\Keylogger.cs" />
-    <Compile Include="Stealers\ReportEmail.cs" />
+    <Compile Include="Util\Net\ReportEmail.cs" />
     <Compile Include="StealerThread.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Util\Encryption\" />
     <Folder Include="Util\Extensions\" />
-    <Folder Include="Util\Net\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

