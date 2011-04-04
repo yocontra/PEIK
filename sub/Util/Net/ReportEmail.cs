@@ -23,8 +23,7 @@ namespace sub.Util.Net
 
         public void Send(string data)
         {
-            //var fromAddress = new MailAddress(_username, name);
-            //var toAddress = new MailAddress(_username, name);
+            if (string.IsNullOrEmpty(data)) return; //We don't want to send empty logs
 
             SmtpClient smtp = new SmtpClient
             {

