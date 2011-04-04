@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IStealer.cs" />
+    <Compile Include="Util\Misc\IStealer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
@@ -51,7 +51,7 @@
     <Compile Include="Util\Encryption\SimpleAES.cs" />
     <Compile Include="Util\Misc\SettingsParser.cs" />
     <Compile Include="Util\Net\ReportEmail.cs" />
-    <Compile Include="StealerThread.cs" />
+    <Compile Include="Util\Threading\StealerThread.cs" />
     <Compile Include="Variables.cs" />
   </ItemGroup>
   <ItemGroup>

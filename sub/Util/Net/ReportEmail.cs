@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using System.Net.Mail;
 
-namespace sub.Stealers
+namespace sub.Util.Net
 {
     internal class ReportEmail
     {

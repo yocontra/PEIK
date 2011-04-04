@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Windows.Forms;
+﻿using System.Threading;
 using sub.Stealers;
-using sub.Util.Encryption;
-using sub.Util.Misc;
+using sub.Util.Threading;
 
 namespace sub
 {
