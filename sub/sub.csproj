@@ -49,6 +49,7 @@
     <Compile Include="Stealers\Keylogger.cs" />
     <Compile Include="Stealers\RSBotStealer.cs" />
     <Compile Include="Util\Encryption\SimpleAES.cs" />
+    <Compile Include="Util\Misc\SettingsParser.cs" />
     <Compile Include="Util\Net\ReportEmail.cs" />
     <Compile Include="StealerThread.cs" />
     <Compile Include="Variables.cs" />
