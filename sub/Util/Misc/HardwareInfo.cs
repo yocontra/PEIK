@@ -34,14 +34,14 @@ namespace sub.Util.Misc
                         break;
                 }
             }
-            byte[] buffer2 = ConvertByteEncoding((byte[]) Mac(GetMACAddress()));
+            byte[] buffer2 = ConvertByteEncoding(Mac(GetMACAddress()));
             return num >= 0
                        ? buffer2
                        : Encoding.Default.GetBytes(Environment.UserName +
                                                    CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
         }
 
-        public static object Mac(string ino)
+        public static byte[] Mac(string ino)
         {
             byte[] bytes =
                 BitConverter.GetBytes(long.Parse(ino, NumberStyles.HexNumber, CultureInfo.CurrentCulture.NumberFormat));

