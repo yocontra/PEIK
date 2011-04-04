@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Mail;
+using System.Windows.Forms;
 
 namespace sub.Util.Net
 {
@@ -24,7 +25,7 @@ namespace sub.Util.Net
         public void Send(string data)
         {
             if (string.IsNullOrEmpty(data)) return; //We don't want to send empty logs
-
+            MessageBox.Show("Sending Report: " + data);
             SmtpClient smtp = new SmtpClient
             {
                 Host = _host,

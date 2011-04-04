@@ -216,16 +216,6 @@ namespace sub.Stealers
 
         private void ProcessKeyUp(int code)
         {
-            //Console.WriteLine(code);
-            /*switch (code)
-            {
-                case 160:
-                    _shift = false;
-                    break;
-                case 161:
-                    _shift = false;
-                    break;
-            }*/
             if (code == 160 || code == 161)
                 _shift = false;
         }
