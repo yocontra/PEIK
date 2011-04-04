@@ -48,7 +48,7 @@ namespace sub
                         st.Start();
                     }
                 }
-                Thread.Sleep(1000); //Sleep the main thread so the stub doesn't close
+                Thread.Sleep(5000); //Sleep the main thread so the stub doesn't close
             }
         }
     }

