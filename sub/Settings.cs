@@ -8,6 +8,11 @@ namespace sub
     {
         #region Settings
 
+        #region Application
+        public static string Splitter = "<<|>>";
+        public static string LittleSplitter = "<<>>";
+        #endregion
+
         #region Mail
 
         public static string EmailAddress { get; set; }
