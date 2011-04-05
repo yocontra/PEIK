@@ -8,20 +8,20 @@ namespace sub
     {
         #region Settings
 
-        #region Application
+        /*#region Application
         public static string Splitter = "<<|>>";
         public static string LittleSplitter = "<<>>";
-        #endregion
+        #endregion*/
 
         #region Mail
 
-        public static string EmailAddress { get; set; }
+        public string EmailAddress { get; set; }
 
-        public static string EmailPassword { get; set; }
+        public string EmailPassword { get; set; }
 
-        public static string SmtpAddress { get; set; }
+        public string SmtpAddress { get; set; }
 
-        public static int SmtpPort { get; set; }
+        public int SmtpPort { get; set; }
 
         #endregion
 
@@ -41,7 +41,7 @@ namespace sub
             xmlSerializer.Serialize(stream, setting);
         }
 
-        public static Settings DeSerializeFromSelf(string xmlData)
+        public static Settings DeserializeFromSelf(string xmlData)
         {
             System.Xml.Serialization.XmlSerializer xmlSerializer =
                 new System.Xml.Serialization.XmlSerializer(typeof (Settings));

