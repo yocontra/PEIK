@@ -2,6 +2,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Net.Mail;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using sub.Util.Misc;
@@ -80,6 +81,8 @@ namespace sub.Stealers
         }
 
         #region IStealer Members
+
+        public Attachment Attachment { get; set; }
 
         public string Name
         {

