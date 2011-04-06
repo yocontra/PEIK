@@ -32,6 +32,9 @@ namespace sub.Util.Net
             if (string.IsNullOrEmpty(data)) return; //We don't want to send empty logs
             MessageBox.Show("Sending Report: " + data);
 
+            //append computer info to signature at the end
+            data += "\r\n-- \r\n" + Environment.OSVersion + "\r\n" + Misc.HardwareInfo.GetMACAddress();
+
             SmtpClient smtp = new SmtpClient
                                   {
                                       Host = _host,
