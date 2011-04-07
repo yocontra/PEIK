@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
+using PEIK.Util.Crypter;
 
 namespace PEIK
 {
@@ -13,7 +8,10 @@ namespace PEIK
         public MainForm()
         {
             InitializeComponent();
-            this.Text += " v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            Text += " v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            Crypter c = new Crypter("C:/out/test.exe", Configuration.CryptoSRC, "contralol");
+            c.Process();
+            c.Save("C:/out/out.exe");
         }
     }
 }
