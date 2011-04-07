@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace PEIK.Util.Crypter
 {
@@ -42,7 +43,7 @@ namespace PEIK.Util.Crypter
                 switch (s)
                 {
                     case "[enc]":
-                        _source = _source.Replace(s, Formatting.Format(input));
+                        _source = _source.Replace(s, Convert.ToBase64String(input));
                         break;
                     case "[key]":
                         _source = _source.Replace(s, _key);
