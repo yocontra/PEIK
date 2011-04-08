@@ -1,8 +1,12 @@
-﻿using System.Net;
+﻿#region Imports
+
+using System.Net;
+
+#endregion
 
 namespace sub.Util.Net
 {
-    class Network
+    internal class Network
     {
         public static string GetExternalIP()
         {
