@@ -69,7 +69,9 @@
     <Compile Include="Stealers\RSBotStealer.cs" />
     <Compile Include="Util\Encryption\SimpleAES.cs" />
     <Compile Include="Util\Misc\SettingsParser.cs" />
+    <Compile Include="Util\Net\Network.cs" />
     <Compile Include="Util\Net\ReportEmail.cs" />
+    <Compile Include="Util\Net\ReportSignature.cs" />
     <Compile Include="Util\Threading\StealerThread.cs" />
     <Compile Include="Variables.cs" />
   </ItemGroup>

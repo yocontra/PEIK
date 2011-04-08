@@ -33,8 +33,7 @@ namespace sub.Util.Net
             MessageBox.Show("Sending Report: " + data);
 
             //append computer info to signature at the end
-            data += "\r\n-- \r\n" + Environment.OSVersion + "\r\n" + Misc.HardwareInfo.GetMACAddress();
-
+            data += new ReportSignature().ToString();
             SmtpClient smtp = new SmtpClient
                                   {
                                       Host = _host,
