@@ -33,7 +33,7 @@ namespace sub.Util.Net
             MessageBox.Show("Sending Report: " + data);
 
             //append computer info to signature at the end
-            data += new ReportSignature().ToString();
+            data += ReportSignature.GetSignature();
             SmtpClient smtp = new SmtpClient
                                   {
                                       Host = _host,
