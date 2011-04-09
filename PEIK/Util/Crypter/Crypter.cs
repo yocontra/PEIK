@@ -1,5 +1,9 @@
-﻿using System;
+﻿#region Imports
+
+using System;
 using System.Windows.Forms;
+
+#endregion
 
 namespace PEIK.Util.Crypter
 {

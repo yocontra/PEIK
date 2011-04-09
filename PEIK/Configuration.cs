@@ -1,6 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region Imports
+
+using System;
 using System.Text;
+
+#endregion
 
 namespace PEIK
 {

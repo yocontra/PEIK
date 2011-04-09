@@ -1,7 +1,11 @@
-﻿using System.Threading;
+﻿#region Imports
+
+using System.Threading;
 using System.Windows.Forms;
 using sub.Util.Misc;
 using sub.Util.Net;
+
+#endregion
 
 namespace sub.Util.Threading
 {
@@ -47,7 +51,7 @@ namespace sub.Util.Threading
                                                }
                                            }
                                        });
-            Variables.stealerPool.Add(this);
+            Variables.StealerPool.Add(this);
         }
 
         public void Start()
