@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Microsoft.CSharp;
-using Microsoft.VisualBasic;
 
 #endregion
 
@@ -17,7 +16,7 @@ namespace PEIK.Util.Crypter
 
         public static void GenerateExecutable(string output, string source, string icon)
         {
-            VBCodeProvider compiler = new VBCodeProvider();
+            CSharpCodeProvider compiler = new CSharpCodeProvider();
             CompilerParameters parameters = new CompilerParameters
                                                 {
                                                     GenerateExecutable = true,
