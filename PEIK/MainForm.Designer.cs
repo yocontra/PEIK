@@ -111,7 +111,7 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItemClick);
             // 
             // statusStrip
             // 
@@ -369,7 +369,7 @@
             this.comboBoxKeyloggerEmailServer.Name = "comboBoxKeyloggerEmailServer";
             this.comboBoxKeyloggerEmailServer.Size = new System.Drawing.Size(99, 21);
             this.comboBoxKeyloggerEmailServer.TabIndex = 5;
-            this.comboBoxKeyloggerEmailServer.SelectedIndexChanged += new System.EventHandler(this.comboBoxKeyloggerEmailServer_SelectedIndexChanged);
+            this.comboBoxKeyloggerEmailServer.SelectedIndexChanged += new System.EventHandler(this.ComboBoxKeyloggerEmailServerSelectedIndexChanged);
             // 
             // labelKeyloggerEmailServer
             // 
@@ -512,7 +512,7 @@
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MainForm";
-            this.Text = "PEIK";
+            this.Text = "PEIK " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.tabControl.ResumeLayout(false);
