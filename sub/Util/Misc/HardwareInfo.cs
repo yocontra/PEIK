@@ -75,26 +75,16 @@ namespace sub.Util.Misc
         {
             ManagementObjectCollection instances =
                 new ManagementClass("Win32_NetworkAdapterConfiguration").GetInstances();
-            string str1 = string.Empty, str2 = string.Empty;
             foreach (ManagementObject obj2 in instances)
             {
-                if (!str2.Equals(string.Empty)) continue;
                 if (Convert.ToBoolean(obj2["IPEnabled"]))
                 {
-                    str1 = obj2["MacAddress"].ToString();
+                    return obj2["MacAddress"].ToString();
                 }
                 obj2.Dispose();
             }
 
-            /*Not needed, MAC address was already in an acceptable format
-            //put the standard dashes in the MAC
-            for (int i = 0; i < str1.Length; i++)
-            {
-                //Note: the ToString() call is nessisary or it trys to add the chacter values instead of concating them
-                str2 += str1[i].ToString() + str1[++i].ToString() + "-";
-            }
-            str2 = str2.Remove(str2.Length - 1);*/
-            return str2;
+            return String.Empty;
         }
 
         public static bool IsValidIso88591(byte value)
